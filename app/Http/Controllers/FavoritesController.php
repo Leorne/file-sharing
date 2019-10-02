@@ -24,4 +24,8 @@ class FavoritesController extends Controller
     {
         $file->unfavorite();
     }
+
+    public function test(){
+
+    }
 }
