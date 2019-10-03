@@ -54,8 +54,8 @@
                                             <li class="list-group-item">Uploaded
                                                 at: {{ $file->created_at->toDayDateTimeString() }}</li>
                                             <li class="list-group-item">Uploader: <img
-                                                    src="{{ $file->uploader->avatar() }}" width="25px" height="25px"><a
-                                                    href="">{{ $file->uploader->name }}</a>
+                                                    src="{{ $file->uploader->avatar_path }}" width="25px" height="25px"><a
+                                                    href="{{ route('profile', $file->uploader) }}">{{ $file->uploader->name }}</a>
                                             </li>
                                         </ul>
                                     </div>

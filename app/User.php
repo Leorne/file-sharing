@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'avatar_path',
+        'name', 'email', 'password', 'avatar_path', 'status_message',
     ];
 
     /**
@@ -47,11 +47,14 @@ class User extends Authenticatable
         return $this->hasMany(Activity::class);
     }
 
-    public function avatar()
+    public function getAvatarPathAttribute($avatar)
     {
-        if($this->avatar_path){
-            return asset('storage/'.$this->avatar_path);
-        }
-        return asset('storage/avatars/default.png');
+        $default = 'storage/avatars/default.png';
+        return asset($avatar ? 'storage/'. $avatar : $default);
+    }
+
+    public function getStatusMessageAttribute($status){
+        $default = '';
+        return $status ? $status : $default;
     }
 }

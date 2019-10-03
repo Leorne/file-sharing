@@ -17,7 +17,7 @@ class ProfilesTest extends TestCase
             ->assertSee($user->name);
     }
 
-//   ToDO
+    /** @test */
     function you_may_view_list_of_uploaded_files_in_user_profile(){
         $user = create('App\User');
 
@@ -26,4 +26,6 @@ class ProfilesTest extends TestCase
         $this->get('/profiles/'.$user->id)
             ->assertSee("\"{$file->name}\"");
     }
+
+
 }

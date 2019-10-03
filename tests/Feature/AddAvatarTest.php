@@ -15,7 +15,7 @@ class AddAvatarTest extends TestCase
     /** @test */
     function only_auth_user_can_add_avatars()
     {
-        $this->postJson('/profiles/user/avatar')
+        $this->postJson('/profiles/1/avatar')
             ->assertStatus(401);
     }
 

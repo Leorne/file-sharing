@@ -2,24 +2,10 @@
 
 @section('content')
     <div class="container">
-        <div class="card m-2">
-            <div class="">
-                <h1>
-                    {{ $profileUser->name }}
-                </h1>
-                <img src="{{ $profileUser->avatar() }}" alt="" width="200px" height="200px">
-                @can('update', $profileUser)
-                    <form method="POST" class="form-control-file" enctype="multipart/form-data"
-                          action="{{ route('avatar', $profileUser) }}">
-                        {{csrf_field()}}
+        <profile-form :user="{{ $profileUser }}"></profile-form>
 
-                        <input type="file" name="avatar" class="form-control-file mb-3">
-                        <input type="submit" name="submit" class="btn btn-primary">
-                    </form>
-                @endcan
-            </div>
-        </div>
-        <div class="card m-2">
+        <div class="card-header mt-5 text-center">Activity feed</div>
+        <div class="card py-2">
             <div class="p-3">
                 @forelse($activities as $date => $gropedActivities)
                     <h5 class="page-header">{{ $date }}</h5>

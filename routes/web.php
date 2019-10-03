@@ -41,3 +41,6 @@ Route::delete('/main/list/{file}/favorites', 'FavoritesController@destroy');
 Route::get('/profiles/{user}', 'ProfilesController@show')->name('profile');
 
 Route::post('/profiles/{user}/avatar', 'UserAvatarController@store')->name('avatar');
+Route::post('/profiles/{user}/status', 'UserStatusController@store')->name('status');
+
+

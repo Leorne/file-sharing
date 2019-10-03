@@ -21,7 +21,9 @@ window.Vue = require('vue');
 
 Vue.component('flash', require('./components/Flash.vue').default);
 Vue.component('paginator', require('./components/Paginator.vue').default);
+// Vue.component('avatar-form', require('./components/AvatarForm.vue').default);
 Vue.component('file-view', require('./pages/File.vue').default);
+Vue.component('profile-form', require('./profile/ProfileForm.vue').default);
 
 
 /**
