@@ -44,6 +44,11 @@
         [v-cloak] {
             display: none
         }
+
+        .avatar {
+            max-width: 200px;
+            max-height: 200px;
+        }
     </style>
 </head>
 <body>

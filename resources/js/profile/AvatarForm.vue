@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="text-center card p-2 m-2">
-            <img :src="avatar" class="img-fluid mx-auto d-block my-4" width="200px" height="200px">
+            <img :src="avatar" class="img-fluid mx-auto d-block my-4 avatar" width="200px" height="200px">
             <h1 v-text="this.user.name"></h1>
             <status-form class="m-2" :user="this.user"></status-form>
         </div>

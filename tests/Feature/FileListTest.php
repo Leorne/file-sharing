@@ -11,7 +11,8 @@ class FileListTest extends TestCase
     use DatabaseMigrations;
 
     /** @test */
-    function user_may_filter_files_by_uncommented(){
+    function user_may_filter_files_by_uncommented()
+    {
         $fileUncommented = create('App\File');
 
         $fileCommented = create('App\File');
@@ -20,7 +21,12 @@ class FileListTest extends TestCase
         $response = $this->getJson('/main/list?uncommented=1')->json();
 
         $this->assertCount(1, $response);
+    }
 
+    function a_user_may_get_paginated_files_list()
+    {
+        $file = factory('App\File',10)->create();
+        $response = $this->getJson('/main/list')->json();
     }
 
 }

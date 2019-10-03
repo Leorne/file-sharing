@@ -56389,7 +56389,7 @@ var render = function() {
       { staticClass: "text-center card p-2 m-2" },
       [
         _c("img", {
-          staticClass: "img-fluid mx-auto d-block my-4",
+          staticClass: "img-fluid mx-auto d-block my-4 avatar",
           attrs: { src: _vm.avatar, width: "200px", height: "200px" }
         }),
         _vm._v(" "),
@@ -68685,10 +68685,9 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('flash', __webpack_require__(/*! ./components/Flash.vue */ "./resources/js/components/Flash.vue")["default"]);
-Vue.component('paginator', __webpack_require__(/*! ./components/Paginator.vue */ "./resources/js/components/Paginator.vue")["default"]); // Vue.component('avatar-form', require('./components/AvatarForm.vue').default);
-
-Vue.component('file-view', __webpack_require__(/*! ./pages/File.vue */ "./resources/js/pages/File.vue")["default"]);
 Vue.component('profile-form', __webpack_require__(/*! ./profile/ProfileForm.vue */ "./resources/js/profile/ProfileForm.vue")["default"]);
+Vue.component('file-view', __webpack_require__(/*! ./pages/File.vue */ "./resources/js/pages/File.vue")["default"]);
+Vue.component('paginator', __webpack_require__(/*! ./components/Paginator.vue */ "./resources/js/components/Paginator.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

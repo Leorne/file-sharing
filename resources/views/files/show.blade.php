@@ -25,7 +25,7 @@
                             @if(((explode('/',$file->mime,-1)[0]) === 'image')  || ((explode('/',$file->mime,-1)[0]) === 'application'))
                                 <img class="img-fluid" src="{{ asset("storage/$file->path") }}">
                             @elseif((explode('/',$file->mime,-1)[0]) === 'video')
-                                <video class="video-fluid" controls>
+                                <video class="img-fluid" controls>
                                     <source src="{{ asset("storage/$file->path") }}" type="{{ $file->mime }}">
                                 </video>
                             @elseif((explode('/',$file->mime,-1)[0]) === 'audio')
@@ -39,8 +39,8 @@
                         <div class="card-body">
                             <ul class="list-group">
                                 <div class="row text-center">
-                                    <div class="col-3">
-                                        <img class="img-fluid mb-3"
+                                    <div class="col-3 pl-2">
+                                        <img class="img-fluid my-3"
                                              src="{{ asset("storage/extensions/$file->extension.png") }}">
                                         <h4><a href="{{ asset("storage/$file->path") }}" class="btn btn-outline-dark"
                                                download="{{ $file->name }}">Download</a>

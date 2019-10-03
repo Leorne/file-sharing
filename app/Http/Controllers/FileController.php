@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\File;
 use App\Filters\FileFilters;
 use Illuminate\Http\Request;
-use mysql_xdevapi\Exception;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileController extends Controller
@@ -31,6 +30,10 @@ class FileController extends Controller
         $files = File::latest()
             ->filter($filters)
             ->paginate(10);
+        if(\request()->expectsJson()){
+            return $files;
+        }
+
         return view('files.index', ['files' => $files]);
     }
 
@@ -67,7 +70,7 @@ class FileController extends Controller
             ]);
             return redirect($file->path())->with('flash', 'File uploaded.');
         };
-        return redirect('/main');
+        return redirect('/main', 422);
     }
 
     /**
