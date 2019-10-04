@@ -11,6 +11,9 @@ class File extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+      'additional_data' => 'array'
+    ];
     protected $withCount = ['favorites'];
     protected $with = ['uploader'];
     protected $appends = ['isFavorited'];
@@ -45,10 +48,18 @@ class File extends Model
             ->with('owner');
     }
 
+    public function setAdditionalDataAttribute($additionalData)
+    {
+        $this->additional_data = json_encode($additionalData);
+    }
 
     public function formatSize()
     {
         return FileHelper::getFormatSize($this->size);
+    }
+
+    public function extensionImage(){
+        return FileHelper::extensionImagePath($this->extension);
     }
 
     public function scopeFilter($query, $filters)

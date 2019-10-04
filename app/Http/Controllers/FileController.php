@@ -47,16 +47,11 @@ class FileController extends Controller
                 'file' => 'required'
             ]);
 
-        $info = FileHelper::getFileData($request->file);
-        if (!isset($info['error'])) {
-            $file = File::create([
-                'user_id' => $info['user_id'],
-                'name' => $info['name'],
-                'path' => $info['path'],
-                'size' => $info['size'],
-                'mime' => $info['mime'],
-                'extension' => $info['extension']
-            ]);
+        $helper = new FileHelper($request->file);
+        $data = $helper->getData();
+//        $info = FileHelper::getFileDataForDb($request->file);
+        if (!isset($data['error'])) {
+            $file = File::create($data);
             //OK
             return redirect($file->path())->with('flash', 'File uploaded.');
         };

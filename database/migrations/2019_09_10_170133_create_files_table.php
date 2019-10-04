@@ -22,6 +22,7 @@ class CreateFilesTable extends Migration
             $table->integer('size');
             $table->string('mime');
             $table->string('extension');
+            $table->json('additional_data')->nullable();
             $table->timestamps();
         });
     }

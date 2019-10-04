@@ -7,30 +7,42 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileHelper
 {
+    protected $file;
+    protected $data = [];
 
-    public static function getFileData(UploadedFile $file)
+    public function __construct(UploadedFile $file)
     {
-        if ($file->isValid()) {
-            $userId = auth()->id();
-            $mime = $file->getClientMimeType();
-            $name = $file->getClientOriginalName();
-            $size = $file->getClientSize();
-            $extension = $file->extension();
-            $file->store("uploads/{$userId}", 'public');
-            $path = "uploads/{$userId}/{$file->hashName()}";
-            return [
-                'user_id' => $userId,
-                'name' => $name,
-                'path' => $path,
-                'size' => $size,
-                'mime' => $mime,
-                'extension' => $extension
-            ];
-        }
-        return [
-            'error' => $file->getError()
-        ];
+        $this->file = $file;
+        $this->setData();
     }
+
+
+    protected function setData(){
+        $getid = new GetID3Helper($this->file);
+        $info = $getid->getidData();
+        if ($this->file->isValid()) {
+            if (!isset($info['error'])) {
+                $userId = auth()->id();
+                $name = $this->file->getClientOriginalName();
+                $this->file->store("uploads/{$userId}", 'public');
+                $path = "uploads/{$userId}/{$this->file->hashName()}";
+                $this->data = [
+                    'user_id' => $userId,
+                    'name' => $name,
+                    'path' => $path,
+                    'size' => $info['filesize'],
+                    'mime' => $info['mime_type'],
+                    'extension' => $info['fileformat'],
+                    'additional_data' => $info['additional_data']
+                ];
+            }
+        }
+    }
+
+    public function getData(){
+        return $this->data;
+    }
+
 
     public static function getFormatSize($size)
     {
@@ -46,9 +58,10 @@ class FileHelper
         return $formatSize;
     }
 
-    public static function getLd()
-    {
-        $getID3 = new \getID3();
+    public static function extensionImagePath($extension){
+        $default = "storage/extensions/default.png";
+        $path = "storage/extensions/$extension.png";
+        return asset(file_exists($path) ? $path : $default );
     }
 
 }
