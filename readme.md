@@ -18,17 +18,21 @@ A project created to study the Laravel framework.
 composer install
 npm install
 ```
-- Rename .env.example to .env`
+- Rename .env.example to .env and change DB settings
 
 - Generate project key
+
 `php artisan key:generate`
 
 - Create link to file storage
+
 `php artisan storage:link`
 
 - Migrate database
+
 `php artisan migrate`
 
 - To generate fake data
+
 `php artisan db:seed` 
 
