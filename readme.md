@@ -20,6 +20,8 @@ rename .env.example to .env
 
 php artisan key:generate
 
+php artisan storage:link
+
 php artisan migrate
 
 //To generate fake data
