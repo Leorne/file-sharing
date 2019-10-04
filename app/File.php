@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Helpers\FileHelper;
 use Illuminate\Database\Eloquent\Model;
 
 class File extends Model
@@ -45,18 +46,9 @@ class File extends Model
     }
 
 
-    public function getFormatFileSize()
+    public function formatSize()
     {
-        $bytes = $this->size;
-        $units = array('B', 'KB', 'MB', 'GB', 'TB');
-        $i = 0;
-        while ($bytes >= 1024) {
-            $bytes /= 1024;
-            $i++;
-        }
-        $i = (count($units) < $i) ? 4 : $i;
-        $formatSize = round($bytes, 2) . ' ' . $units[$i];
-        return $formatSize;
+        return FileHelper::getFormatSize($this->size);
     }
 
     public function scopeFilter($query, $filters)
