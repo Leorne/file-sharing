@@ -50,7 +50,7 @@
                                         <ul class="text-left">
                                             <li class="list-group-item">Name: {{ $file->name }}</li>
                                             <li class="list-group-item">Extension: {{ $file->extension }}</li>
-                                            <li class="list-group-item">Size: {{ $file->getFormatFileSize() }}</li>
+                                            <li class="list-group-item">Size: {{ $file->formatSize() }}</li>
                                             <li class="list-group-item">Uploaded
                                                 at: {{ $file->created_at->toDayDateTimeString() }}</li>
                                             <li class="list-group-item">Uploader: <img

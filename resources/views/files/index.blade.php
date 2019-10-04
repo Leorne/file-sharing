@@ -17,7 +17,7 @@
                 @foreach($files as $file)
                     <tr>
                         <td><a href="{{ $file->path() }}">{{ $file->name }}</a></td>
-                        <td>{{ $file->getFormatFileSize() }}</td>
+                        <td>{{ $file->formatSize() }}</td>
                         <td>{{ $file->created_at->isoFormat('M/D/YY HH:mm') }}</td>
                         <td><a href="{{route('profile', $file->uploader) }}">{{ $file->uploader->name }}</a></td>
                         <td class="text-center border-0"><a href="{{ asset("storage/$file->path") }}"
