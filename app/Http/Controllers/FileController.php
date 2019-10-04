@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\File;
 use App\Filters\FileFilters;
+use App\Helpers\FileHelper;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileController extends Controller
 {
@@ -14,10 +14,6 @@ class FileController extends Controller
         $this->middleware('auth')->except(['main', 'index', 'show']);
     }
 
-    public function main()
-    {
-        return view('files.main');
-    }
 
     /**
      * Display a listing of the resource.
@@ -30,22 +26,13 @@ class FileController extends Controller
         $files = File::latest()
             ->filter($filters)
             ->paginate(10);
-        if(\request()->expectsJson()){
+        if (\request()->expectsJson()) {
             return $files;
         }
 
         return view('files.index', ['files' => $files]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -59,7 +46,9 @@ class FileController extends Controller
             [
                 'file' => 'required'
             ]);
-        if (($info = $this->getFileInfo($request->file)) !== false) {
+
+        $info = FileHelper::getFileData($request->file);
+        if (!isset($info['error'])) {
             $file = File::create([
                 'user_id' => $info['user_id'],
                 'name' => $info['name'],
@@ -68,6 +57,7 @@ class FileController extends Controller
                 'mime' => $info['mime'],
                 'extension' => $info['extension']
             ]);
+            //OK
             return redirect($file->path())->with('flash', 'File uploaded.');
         };
         return redirect('/main', 422);
@@ -84,28 +74,6 @@ class FileController extends Controller
         return view('files.show', compact('file'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param \App\File $file
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(File $file)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\File $file
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, File $file)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -119,40 +87,15 @@ class FileController extends Controller
 
         $file->delete();
 
-        if(\request()->wantsJson()){
-        return response([], 204);}
+        \Storage::delete($file->getFilePath());
+
+        if (\request()->wantsJson()) {
+            return response([], 204);
+        }
 
         return redirect()->route('list')->with('flash', 'File has been deleted.');
     }
 
-
-    /**
-     * @param $file
-     * @return array|bool
-     */
-    protected function getFileInfo(UploadedFile $file)
-    {
-        if ($file->isValid()) {
-            $userId = auth()->id();
-            $mime = $file->getClientMimeType();
-            $name = $file->getClientOriginalName();
-            $size = $file->getClientSize();
-            $extension = $file->extension();
-            $file->store("uploads/{$userId}", 'public');
-            $path = "uploads/{$userId}/{$file->hashName()}";
-            return [
-                'user_id' => $userId,
-                'name' => $name,
-                'path' => $path,
-                'size' => $size,
-                'mime' => $mime,
-                'extension' => $extension
-            ];
-        }
-        return [
-            'error' => $file->getError()
-        ];
-    }
 }
 
 
