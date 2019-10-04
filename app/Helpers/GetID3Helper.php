@@ -31,9 +31,12 @@ class GetID3Helper
                 // Delete temporary file
                 unlink($localTempFileName);
             }
+            else{
+                $this->errors[] = 'git3id cant load localTemp file';
+            }
             fclose($fpRemote);
         } else {
-             $this->errors[] = true;
+             $this->errors[] = 'gitid3 cant load file';
         }
     }
 
@@ -83,6 +86,7 @@ class GetID3Helper
     protected static function playTime($playtime){
         $playtime = floor($playtime);
         $sec = $playtime % 60;
+        $sec = $sec < 10 ? '0'.$sec : $sec;
         $min = ($playtime - $sec)/60;
         return $min.':'.$sec;
     }

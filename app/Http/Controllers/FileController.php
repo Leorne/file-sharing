@@ -49,7 +49,6 @@ class FileController extends Controller
 
         $helper = new FileHelper($request->file);
         $data = $helper->getData();
-//        $info = FileHelper::getFileDataForDb($request->file);
         if (!isset($data['error'])) {
             $file = File::create($data);
             //OK

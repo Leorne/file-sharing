@@ -29,30 +29,34 @@
                     </div>
                     <div class="card mb-4">
                         <div class="card-body">
-                            <ul class="list-group">
-                                <div class="row text-center">
-                                    <div class="col-3 pl-2">
-                                        <img class="img-fluid my-3"
-                                             src="{{ $file->extensionImage() }}">
-                                        <h4><a href="{{ asset("storage/$file->path") }}" class="btn btn-outline-dark"
-                                               download="{{ $file->name }}">Download</a>
-                                        </h4>
-                                    </div>
-                                    <div class="col-9">
-                                        <ul class="text-left">
-                                            <li class="list-group-item">Name: {{ $file->name }}</li>
-                                            <li class="list-group-item">Extension: {{ $file->extension }}</li>
-                                            <li class="list-group-item">Size: {{ $file->formatSize() }}</li>
-                                            <li class="list-group-item">Uploaded
-                                                at: {{ $file->created_at->toDayDateTimeString() }}</li>
-                                            <li class="list-group-item">Uploader: <img
-                                                    src="{{ $file->uploader->avatar_path }}" width="25px" height="25px"><a
-                                                    href="{{ route('profile', $file->uploader) }}">{{ $file->uploader->name }}</a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                            <div class="row text-center">
+                                <div class="col-4 align-items-center my-auto">
+                                    <img class="img-fluid mb-3"
+                                         src="{{ $file->extensionImage() }}">
+                                    <h4><a href="{{ asset("storage/$file->path") }}" class="btn btn-outline-dark"
+                                           download="{{ $file->name }}">Download</a>
+                                    </h4>
                                 </div>
-                            </ul>
+                                <div class="col-8">
+                                    <ul class="text-left pl-0">
+                                        <li class="list-group-item">Name: {{ $file->name }}</li>
+                                        <li class="list-group-item">Extension: {{ $file->extension }}</li>
+                                        @if(isset($file->additional_data['resolution']))
+                                        <li class="list-group-item">Resolution: {{ $file->additional_data['resolution'] }}</li>
+                                        @endif
+                                        @if(isset($file->additional_data['playtime']))
+                                            <li class="list-group-item">Lenght: {{ $file->additional_data['playtime'] }}</li>
+                                        @endif
+                                        <li class="list-group-item">Size: {{ $file->formatSize() }}</li>
+                                        <li class="list-group-item">Uploaded
+                                            at: {{ $file->created_at->toDayDateTimeString() }}</li>
+                                        <li class="list-group-item">Uploader: <img
+                                                src="{{ $file->uploader->avatar_path }}" width="25px" height="25px"><a
+                                                href="{{ route('profile', $file->uploader) }}">{{ $file->uploader->name }}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                         @if(Auth::check())
                             <div class="row justify-content-center">

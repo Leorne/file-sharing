@@ -2,6 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
+use App\Helpers\FileHelper;
 use App\User;
 use Illuminate\Http\UploadedFile as UploadedFile;
 use Illuminate\Support\Str;
@@ -30,42 +31,22 @@ $factory->define(User::class, function (Faker $faker) {
 
 
 $factory->define(App\File::class, function (Faker $faker) {
-    try {
-        $user = factory('App\User')->create();
-        $tmpFile = $faker->image($dir = null, $width = 640, $height = 480, $category = null, $fullPath = false);
-        $file = new UploadedFile("/tmp/{$tmpFile}", $tmpFile);
-        if (!$file->getError()) {
-            $userId = $user->id;
-            $mime = $file->getClientMimeType();
-            $name = $file->getClientOriginalName();
-            $size = $file->getSize();
-            $extension = $file->extension();
-            $file->store("/public/uploads/{$userId}");
-            $path = "uploads/{$userId}/{$file->hashName()}";
-            return [
-                'user_id' => $userId,
-                'name' => $name,
-                'path' => $path,
-                'size' => $size,
-                'mime' => $mime,
-                'extension' => $extension
-            ];
-        } else {
-            throw new Exception('RETURN NULL');
-        }
-    } catch (Exception $e) {
-        echo($e);
-    }
+    $user = factory('App\User')->create();
+    $tmpFile = $faker->image($dir = null, $width = 640, $height = 480, $category = null, $fullPath = false);
+    $file = new UploadedFile("/tmp/{$tmpFile}", $tmpFile);
+    $helper = new FileHelper($file, $user->id);
+    $data = $helper->getData();
+    return $data;
 });
 
 
 //$files->each(function($files){ factory('App\Reply',10)->create(['file_id' => $files->id]); });
 $factory->define(App\Reply::class, function (Faker $faker) {
     return [
-        'file_id' => function(){
+        'file_id' => function () {
             return factory('App\File')->create()->id;
         },
-        'user_id' => function(){
+        'user_id' => function () {
             return factory('App\User')->create()->id;
         },
         'body' => $faker->paragraph

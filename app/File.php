@@ -48,11 +48,6 @@ class File extends Model
             ->with('owner');
     }
 
-    public function setAdditionalDataAttribute($additionalData)
-    {
-        $this->additional_data = json_encode($additionalData);
-    }
-
     public function formatSize()
     {
         return FileHelper::getFormatSize($this->size);

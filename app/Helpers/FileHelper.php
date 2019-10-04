@@ -7,11 +7,13 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileHelper
 {
+    protected $userId;
     protected $file;
     protected $data = [];
 
-    public function __construct(UploadedFile $file)
+    public function __construct(UploadedFile $file, $userId = null)
     {
+        $this->userId = $userId ? $userId : auth()->id();
         $this->file = $file;
         $this->setData();
     }
@@ -20,14 +22,13 @@ class FileHelper
     protected function setData(){
         $getid = new GetID3Helper($this->file);
         $info = $getid->getidData();
-        if ($this->file->isValid()) {
+        if (!$this->file->getError()) {
             if (!isset($info['error'])) {
-                $userId = auth()->id();
                 $name = $this->file->getClientOriginalName();
-                $this->file->store("uploads/{$userId}", 'public');
-                $path = "uploads/{$userId}/{$this->file->hashName()}";
+                $this->file->store("uploads/{$this->userId}", 'public');
+                $path = "uploads/{$this->userId}/{$this->file->hashName()}";
                 $this->data = [
-                    'user_id' => $userId,
+                    'user_id' => $this->userId,
                     'name' => $name,
                     'path' => $path,
                     'size' => $info['filesize'],
