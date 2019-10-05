@@ -13,7 +13,7 @@ class FavoriteTest extends TestCase
     /** @test */
     function guest_may_not_favorute_anything()
     {
-        $this->post('/main/list/1/favorites')
+        $this->post('/list/1/favorites')
             ->assertRedirect('/login');
     }
 
@@ -23,7 +23,7 @@ class FavoriteTest extends TestCase
     {
         $this->signIn();
         $file = create('App\File');
-        $this->post('/main/list/' . $file->id . '/favorites');
+        $this->post('/list/' . $file->id . '/favorites');
         $this->assertCount(1, $file->favorites);
     }
 
@@ -33,8 +33,8 @@ class FavoriteTest extends TestCase
         $this->signIn();
         $file = create('App\File');
         try{
-            $this->post('/main/list/' . $file->id . '/favorites');
-            $this->post('/main/list/' . $file->id . '/favorites');
+            $this->post('/list/' . $file->id . '/favorites');
+            $this->post('/list/' . $file->id . '/favorites');
         }catch (\Exception $e){
             $this->fail('Did not expect to insert same record twice');
         }
@@ -51,7 +51,7 @@ class FavoriteTest extends TestCase
         $file->favorite();
         $this->assertCount(1, $file->favorites);
 
-        $this->delete('/main/list/' . $file->id . '/favorites');
+        $this->delete('/list/' . $file->id . '/favorites');
         $this->assertCount(0, $file->fresh()->favorites);
     }
 

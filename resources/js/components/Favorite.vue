@@ -22,7 +22,7 @@
             },
 
             endpoint() {
-                return '/main/list/' + this.file.id + '/favorites';
+                return '/list/' + this.file.id + '/favorites';
             }
         },
 

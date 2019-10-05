@@ -14,7 +14,7 @@ class UploadFileTest extends TestCase
     /** @test */
     public function guest_may_not_to_upload_file()
     {
-        $this->post('/main/upload')->assertRedirect('/login');
+        $this->post('/upload')->assertRedirect('/login');
     }
 
     /** @test */
@@ -22,10 +22,10 @@ class UploadFileTest extends TestCase
     {
         $this->signIn();
         \Storage::fake('public');
-        $this->postJson('/main/upload', ['file' => $file = UploadedFile::fake()->image('testImage.jpg')]);
+        $this->postJson('/upload', ['file' => $file = UploadedFile::fake()->image('testImage.jpg')]);
         \Storage::disk('public')->assertExists('uploads/' . \Auth::user()->id . '/' . $file->hashName());
 
-        $this->get('/main/list')
+        $this->get('/list')
             ->assertSee($file->name);
     }
 
@@ -38,8 +38,12 @@ class UploadFileTest extends TestCase
 
         $this->deleteJson($file->path())->assertStatus(204);
 
-        $this->assertDatabaseMissing('files', $file->toArray());
-        $this->assertDatabaseMissing('replies', $reply->toArray());
+        $this->assertDatabaseMissing('files', [
+            'id' => $file->id
+        ]);
+        $this->assertDatabaseMissing('replies', [
+            'id' => $reply->id
+        ]);
     }
 
 

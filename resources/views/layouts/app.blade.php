@@ -67,7 +67,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav mr-auto">
-                    <a class="nav-link" href="/main/list">File List</a>
+                    <a class="nav-link" href="/list">File List</a>
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -75,12 +75,12 @@
                             Filter
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/main/list?comments=1">Most Commented</a>
-                            <a class="dropdown-item" href="/main/list?uncommented=1">Uncommented files</a>
+                            <a class="dropdown-item" href="/list?comments=1">Most Commented</a>
+                            <a class="dropdown-item" href="/list?uncommented=1">Uncommented files</a>
                             @if(auth()->check())
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/main/list?by={{ auth()->user()->name}}">My Files</a>
-                                <a class="dropdown-item" href="/main/list?favorited=1">My Favorites</a>
+                                <a class="dropdown-item" href="/list?by={{ auth()->user()->name}}">My Files</a>
+                                <a class="dropdown-item" href="/list?favorited=1">My Favorites</a>
                             @endif
                         </div>
                     </li>

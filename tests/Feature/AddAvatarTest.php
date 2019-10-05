@@ -40,7 +40,7 @@ class AddAvatarTest extends TestCase
         $this->postJson('/profiles/' .auth()->id() .'/avatar', [
             'avatar' => $avatar]);
 
-        $this->assertEquals('avatars/'.$avatar->hashName(), auth()->user()->avatar_path);
+        $this->assertEquals(asset('storage/avatars/'.$avatar->hashName()), auth()->user()->avatar_path);
         \Storage::disk('public')->assertExists('avatars/'. $avatar->hashName());
     }
 

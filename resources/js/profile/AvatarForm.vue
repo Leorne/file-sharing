@@ -7,8 +7,8 @@
         </div>
 
         <form v-if="canUpdate" method="POST" class="form-control-file" enctype="multipart/form-data">
-            <div class="card p-3">
-                <h4>Change your avatar here.</h4>
+            <div class="card p-3 mx-auto">
+                <h4 class="text-center">Change your avatar here.</h4>
                 <input type="file" name="avatar" class="my-1" accept="image/*" @change="onChange">
             </div>
         </form>

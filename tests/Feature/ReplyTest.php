@@ -16,7 +16,7 @@ class ReplyTest extends TestCase
     {
         $reply = make('App\Reply');
 
-        $this->post('/main/list/1/reply', ['body' => $reply->body])->assertRedirect('login');
+        $this->post('/list/1/reply', ['body' => $reply->body])->assertRedirect('login');
     }
 
     /** @test */
@@ -26,8 +26,8 @@ class ReplyTest extends TestCase
 
         $reply = make('App\Reply');
 
-        $this->post('/main/list/1/reply', ['body' => $reply->body]);
-        $this->get('/main/list/1')
+        $this->post('/list/1/reply', ['body' => $reply->body]);
+        $this->get('/list/1')
             ->assertSee($reply->body);
     }
 

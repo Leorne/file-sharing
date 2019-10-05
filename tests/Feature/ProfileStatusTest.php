@@ -29,7 +29,7 @@ class ProfileStatusTest extends TestCase
 
         $this->postJson("profiles/{$user->id}/status", [
             'status_message' => $status,
-        ])->assertStatus(422);
+        ])->assertStatus(200);
 
         $this->assertDatabaseHas('users', [
             'id' => $user->id,
@@ -48,7 +48,7 @@ class ProfileStatusTest extends TestCase
         $status = 'This message longer than 20 symbols.';
         $this->postJson("profiles/{$user->id}/status", [
             'status_message' => $status,
-        ])->assertStatus(200);
+        ])->assertStatus(422);
 
         $this->assertDatabaseMissing('users', [
             'id' => $user->id,

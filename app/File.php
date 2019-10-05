@@ -29,7 +29,7 @@ class File extends Model
 
     public function path()
     {
-        return '/main/list/' . $this->id;
+        return '/list/' . $this->id;
     }
 
     public function uploader()

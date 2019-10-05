@@ -14,7 +14,7 @@
                             </span>
                             <div class="form-group">
                                 <form method="POST" class="form-control-file" enctype="multipart/form-data"
-                                      action="/main/upload">
+                                      action="/upload">
                                     {{csrf_field()}}
                                     <input type="file" name="file" class="form-control-file mb-3">
                                     <input type="submit" name="submit" class="btn btn-primary" value="Send file.">
