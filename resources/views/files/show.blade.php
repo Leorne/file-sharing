@@ -47,7 +47,7 @@
                                         @if(isset($file->additional_data['playtime']))
                                             <li class="list-group-item">Lenght: {{ $file->additional_data['playtime'] }}</li>
                                         @endif
-                                        <li class="list-group-item">Size: {{ $file->formatSize() }}</li>
+                                        <li class="list-group-item">Size: {{ $file->size }}</li>
                                         <li class="list-group-item">Uploaded
                                             at: {{ $file->created_at->toDayDateTimeString() }}</li>
                                         <li class="list-group-item">Uploader: <img
@@ -67,7 +67,7 @@
                 </div>
 
                 <div class="col-md-8">
-                    <replies :data="{{ $file->replies }}" :initial-replies-count="{{ $file->replies_count }}"></replies>
+                    <replies  :initial-replies-count="{{ $file->replies_count }}"></replies>
                 </div>
             </div>
         </div>

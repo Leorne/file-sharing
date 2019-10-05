@@ -48,10 +48,14 @@ class File extends Model
             ->with('owner');
     }
 
-    public function formatSize()
-    {
-        return FileHelper::getFormatSize($this->size);
+    public function getSizeAttribute($size){
+        return FileHelper::getFormatSize($size);
     }
+
+    public function getPathAttribute($path){
+        return asset("storage/{$path}");
+    }
+
 
     public function extensionImage(){
         return FileHelper::extensionImagePath($this->extension);

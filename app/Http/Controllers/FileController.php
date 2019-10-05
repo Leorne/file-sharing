@@ -25,10 +25,11 @@ class FileController extends Controller
     {
         $files = File::latest()
             ->filter($filters)
-            ->paginate(10);
+            ->paginate(20);
         if (\request()->expectsJson()) {
             return $files;
         }
+//        dd($files);
 
         return view('files.index', ['files' => $files]);
     }

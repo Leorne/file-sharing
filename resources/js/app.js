@@ -22,6 +22,9 @@ window.Vue = require('vue');
 Vue.component('flash', require('./components/Flash.vue').default);
 Vue.component('profile-form', require('./profile/ProfileForm.vue').default);
 Vue.component('file-view', require('./pages/File.vue').default);
+Vue.component('file-view', require('./pages/File.vue').default);
+Vue.component('file-list', require('./pages/List.vue').default);
+
 
 Vue.component('paginator', require('./components/Paginator.vue').default);
 
