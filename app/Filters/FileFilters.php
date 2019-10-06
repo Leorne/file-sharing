@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class FileFilters extends Filter
 {
-    protected $filters = ['by', 'comments', 'uncommented', 'favorited', 'search'];
+    protected $filters = ['by', 'comments', 'uncommented', 'favorited', 'searching'];
 
     public function by($username)
     {
@@ -41,7 +41,7 @@ class FileFilters extends Filter
         }
     }
 
-    public function search($searchString){
+    public function searching($searchString){
         return $this->builder->where('name', 'like', "%{$searchString}%");
     }
 }

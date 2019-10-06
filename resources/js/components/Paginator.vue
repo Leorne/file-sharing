@@ -40,11 +40,6 @@
 
             page() {
                 this.broadcast();
-                this.updateUrl();
-            },
-
-            location() {
-
             },
 
         },
@@ -61,13 +56,9 @@
 
         methods: {
             broadcast() {
-                this.$emit('changed', this.page);
+                let page = ['page', this.page];
+                this.$emit('changed', page);
             },
-
-            updateUrl(page) {
-                page = page ? page : this.page;
-                history.pushState(null, null, '?page=' + this.page)
-            }
         }
     }
 </script>

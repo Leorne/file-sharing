@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <search-form @searched="fetch"></search-form>
+        <search-form @searching="fetch"></search-form>
         <paginator :dataSet="dataSet" @changed="fetch"></paginator>
         <div class="table-responsive">
             <table class="table table-bordered table-hover">
@@ -49,23 +49,46 @@
         },
 
         methods: {
-            fetch(page) {
-                axios.get(this.url(page)).then(this.refresh)
+            fetch(newValue) {
+                axios.get(this.url(newValue)).then(this.refresh)
             },
 
-            url(page) {
-                if (!page) {
-                    let query =  location.search ?location.search.match(/page=(\d+)/): 1;
-                    page = (query[1] <= this.dataSet.last_page) ? query[1] : 1;
+            url(newValue) {
+                if (!!newValue) {
+                    console.log('UpDATE URL TO');
+                    let queryMap = new Map();
+                    let query = location.search;
+                    //if query is not empty, get query params and set to map
+                    if (!!query) {
+                        let params = query.replace('?', '').split('&');
+                        for (let i = 0; i < params.length; i++) {
+                            let buff = params[i].split('=');
+                            queryMap.set(buff[0], buff[1]);
+                        }
+                    }
+                    //add new query value to map
+                    queryMap.set(newValue[0], newValue[1]);
+                    //build query string
+                    query = '?';
+                    let i = 0;
+                    for (let value of queryMap) {
+                        query += value[0] + '=' + value[1];
+                        (i === (queryMap.size - 1)) ? null : query += '&';
+                        i++;
+                    }
+                    console.log(query);
+                    history.pushState(null, null, query);
+                    return `${location.pathname}${query}`;
                 }
-
-                return `${location.pathname}?page=${page}`;
-            },
+                return `${location}`;
+            }
+            ,
 
             refresh(response) {
                 this.dataSet = response.data;
                 this.items = response.data.data;
-            },
+            }
+            ,
 
         },
 

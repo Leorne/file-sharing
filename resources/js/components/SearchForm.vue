@@ -17,17 +17,8 @@
 
         methods: {
             search(){
-                this.updateUrl();
-                this.$emit('searched', this.searchText);
-                // this.searchText = null;
-                l
-            },
-
-            updateUrl(){
-                let newUrl = new URL(location);
-                newUrl.searchParams.append('foo', 'bar');
-                // newUrl.searchParams.append('foo', 'bar');
-                // newUrl.searchParams.append('foo', 'bar');
+                let searching = ['searching', this.searchText];
+                this.$emit('searching', searching);
             },
         },
     }
