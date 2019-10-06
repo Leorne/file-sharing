@@ -2028,8 +2028,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       page: 1,
       prevUrl: false,
-      nextUrl: false,
-      location: location.pathname
+      nextUrl: false
     };
   },
   watch: {
@@ -2103,20 +2102,67 @@ __webpack_require__.r(__webpack_exports__);
     this.fetch();
   },
   methods: {
-    fetch: function fetch(page) {
-      axios.get(this.url(page)).then(this.refresh);
+    fetch: function fetch(newValue) {
+      axios.get(this.url(newValue)).then(this.refresh);
     },
-    url: function url(page) {
-      if (!page) {
-        var query = location.search ? location.search.match(/page=(\d+)/) : 1;
-        page = query[1] <= this.dataSet.last_page ? query[1] : 1;
+    url: function url(newValue) {
+      if (!!newValue) {
+        console.log('UpDATE URL TO');
+        console.log(newValue);
+        var queryMap = new Map();
+        var query = location.search; //if query is not empty, get query params and set to map
+
+        if (!!query) {
+          var params = query.replace('?', '').split('&');
+
+          for (var _i = 0; _i < params.length; _i++) {
+            var buff = params[_i].split('=');
+
+            queryMap.set(buff[0], buff[1]);
+          }
+        } //add new query value to map
+
+
+        queryMap.set(newValue[0], newValue[1]); //build query string
+
+        query = '?';
+        var i = 0;
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
+        try {
+          for (var _iterator = queryMap[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var value = _step.value;
+            query += value[0] + '=' + value[1];
+            i === queryMap.size - 1 ? null : query += '&';
+            i++;
+          }
+        } catch (err) {
+          _didIteratorError = true;
+          _iteratorError = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+              _iterator["return"]();
+            }
+          } finally {
+            if (_didIteratorError) {
+              throw _iteratorError;
+            }
+          }
+        }
+
+        console.log(query);
+        history.pushState(null, null, query);
+        return "".concat(location.pathname + '/reply').concat(query);
       }
 
-      return "".concat(location.pathname, "/reply?page=").concat(page);
+      return "".concat(location + '/reply');
     },
     refresh: function refresh(response) {
       this.dataSet = response.data;
-      this.items = response.data.data; // window.scrollTo(0,0);
+      this.items = response.data.data;
     },
     add: function add(reply) {
       //

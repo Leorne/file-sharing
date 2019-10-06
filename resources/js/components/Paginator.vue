@@ -27,7 +27,6 @@
                 page: 1,
                 prevUrl: false,
                 nextUrl: false,
-                location: location.pathname
             }
         },
 

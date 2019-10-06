@@ -33,7 +33,7 @@
                                 <div class="col-4 align-items-center my-auto">
                                     <img class="img-fluid mb-3"
                                          src="{{ $file->extensionImage() }}">
-                                    <h4><a href="{{ asset("storage/$file->path") }}" class="btn btn-outline-dark"
+                                    <h4><a href="{{ $file->path }}" class="btn btn-outline-dark"
                                            download="{{ $file->name }}">Download</a>
                                     </h4>
                                 </div>

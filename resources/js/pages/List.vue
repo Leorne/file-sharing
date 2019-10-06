@@ -81,14 +81,12 @@
                     return `${location.pathname}${query}`;
                 }
                 return `${location}`;
-            }
-            ,
+            },
 
             refresh(response) {
                 this.dataSet = response.data;
                 this.items = response.data.data;
-            }
-            ,
+            },
 
         },
 

@@ -14,7 +14,11 @@ class ReplyController extends Controller
     }
 
     public function index(File $file){
-        return $file->replies()->paginate(10);
+        $replies = $file->replies()->paginate(10);
+        if(\request()->json()){
+            return $replies;
+        }
+        return $replies;
     }
 
     public function store(File $file)

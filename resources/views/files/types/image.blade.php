@@ -1,1 +1,1 @@
-<img class="img-fluid" src="{{ asset("storage/$file->path") }}">
+<img class="img-fluid" src="{{ $file->path }}">
