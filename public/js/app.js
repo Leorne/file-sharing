@@ -2274,8 +2274,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2284,7 +2282,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     search: function search() {
-      var searching = ['searching', this.searchText];
+      var searching = ['searching', this.searchText, 1];
       this.$emit('searching', searching);
     }
   }
@@ -2399,7 +2397,14 @@ __webpack_require__.r(__webpack_exports__);
         } //add new query value to map
 
 
-        queryMap.set(newValue[0], newValue[1]); //build query string
+        queryMap.set(newValue[0], newValue[1]); //return page 1, when user use search filter
+
+        console.log(!!newValue[2]);
+
+        if (!!newValue[2]) {
+          queryMap.set('page', newValue[2]);
+        } //build query string
+
 
         query = '?';
         var i = 0;
@@ -2429,7 +2434,6 @@ __webpack_require__.r(__webpack_exports__);
           }
         }
 
-        console.log(query);
         history.pushState(null, null, query);
         return "".concat(location.pathname).concat(query);
       }
@@ -56673,34 +56677,41 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("form", { attrs: { action: "" } }, [
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.searchText,
-            expression: "searchText"
-          }
-        ],
-        attrs: { type: "text", name: "searchText", id: "searchText" },
-        domProps: { value: _vm.searchText },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.searchText = $event.target.value
-          }
+    _c("input", {
+      directives: [
+        {
+          name: "model",
+          rawName: "v-model",
+          value: _vm.searchText,
+          expression: "searchText"
         }
-      }),
-      _vm._v(" "),
-      _c("input", {
-        staticClass: "btn btn-dark",
-        attrs: { type: "button", value: "Search" },
-        on: { click: _vm.search }
-      })
-    ])
+      ],
+      attrs: { type: "text", name: "searchText", id: "searchText" },
+      domProps: { value: _vm.searchText },
+      on: {
+        keyup: function($event) {
+          if (
+            !$event.type.indexOf("key") &&
+            _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+          ) {
+            return null
+          }
+          return _vm.search($event)
+        },
+        input: function($event) {
+          if ($event.target.composing) {
+            return
+          }
+          _vm.searchText = $event.target.value
+        }
+      }
+    }),
+    _vm._v(" "),
+    _c("input", {
+      staticClass: "btn btn-dark",
+      attrs: { type: "button", value: "Search" },
+      on: { click: _vm.search }
+    })
   ])
 }
 var staticRenderFns = []
@@ -56777,12 +56788,7 @@ var render = function() {
             0
           )
         ])
-      ]),
-      _vm._v(" "),
-      _c("paginator", {
-        attrs: { dataSet: _vm.dataSet },
-        on: { changed: _vm.fetch }
-      })
+      ])
     ],
     1
   )

@@ -26,7 +26,7 @@
                 </tbody>
             </table>
         </div>
-        <paginator :dataSet="dataSet" @changed="fetch"></paginator>
+<!--        <paginator :dataSet="dataSet" @changed="fetch"></paginator>-->
     </div>
 </template>
 
@@ -68,6 +68,11 @@
                     }
                     //add new query value to map
                     queryMap.set(newValue[0], newValue[1]);
+                    //return page 1, when user use search filter
+                    console.log(!!newValue[2]);
+                    if(!!newValue[2]){
+                        queryMap.set('page',newValue[2]);
+                    }
                     //build query string
                     query = '?';
                     let i = 0;
@@ -76,7 +81,6 @@
                         (i === (queryMap.size - 1)) ? null : query += '&';
                         i++;
                     }
-                    console.log(query);
                     history.pushState(null, null, query);
                     return `${location.pathname}${query}`;
                 }

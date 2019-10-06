@@ -1,9 +1,7 @@
 <template>
     <div>
-        <form action="">
-            <input type="text" name="searchText" id="searchText" v-model="searchText">
-            <input type="button" class="btn btn-dark" value="Search" @click="search">
-        </form>
+        <input type="text" name="searchText" id="searchText" @keyup.enter="search" v-model="searchText">
+        <input type="button" class="btn btn-dark" value="Search" @click="search">
     </div>
 </template>
 
@@ -16,8 +14,8 @@
         },
 
         methods: {
-            search(){
-                let searching = ['searching', this.searchText];
+            search() {
+                let searching = ['searching', this.searchText, 1];
                 this.$emit('searching', searching);
             },
         },
