@@ -9,7 +9,7 @@
         <div v-if="editing">
             <div class="col-3 mx-auto">
                 <input class="form-control form-control-sm text-center" type="text" v-model="status_message"
-                       @keyup.enter="update" maxlength="20">
+                       @keyup.enter="update" @keyup.esc="editing = false" maxlength="20">
             </div>
         </div>
         <div v-else>

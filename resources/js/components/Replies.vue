@@ -73,15 +73,19 @@
             },
 
             add(reply) {
-                //
+                let page = (this.items.length >= this.dataSet.per_page) ? ['page', this.dataSet.current_page + 1] : null;
+                this.fetch(page);
                 this.repliesCount++;
-                this.fetch();
             },
 
             remove(index) {
+                if(this.items.length >= 10){
+                    let page = ['page', this.dataSet.current_page + 1];
+                }
+                let page = ((this.current_page !== 1) && (this.items.length === 1)) ? ['page', this.dataSet.current_page - 1] : null;
                 this.items.splice(index, 1);
+                this.fetch(page);
                 this.repliesCount--;
-                // this.fetch();
             }
         }
     }

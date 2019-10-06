@@ -2165,13 +2165,19 @@ __webpack_require__.r(__webpack_exports__);
       this.items = response.data.data;
     },
     add: function add(reply) {
-      //
+      var page = this.items.length >= this.dataSet.per_page ? ['page', this.dataSet.current_page + 1] : null;
+      this.fetch(page);
       this.repliesCount++;
-      this.fetch();
     },
     remove: function remove(index) {
+      if (this.items.length >= 10) {
+        var _page = ['page', this.dataSet.current_page + 1];
+      }
+
+      var page = this.current_page !== 1 && this.items.length === 1 ? ['page', this.dataSet.current_page - 1] : null;
       this.items.splice(index, 1);
-      this.repliesCount--; // this.fetch();
+      this.fetch(page);
+      this.repliesCount--;
     }
   }
 });
@@ -56936,15 +56942,29 @@ var render = function() {
               attrs: { type: "text", maxlength: "20" },
               domProps: { value: _vm.status_message },
               on: {
-                keyup: function($event) {
-                  if (
-                    !$event.type.indexOf("key") &&
-                    _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-                  ) {
-                    return null
+                keyup: [
+                  function($event) {
+                    if (
+                      !$event.type.indexOf("key") &&
+                      _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                    ) {
+                      return null
+                    }
+                    return _vm.update($event)
+                  },
+                  function($event) {
+                    if (
+                      !$event.type.indexOf("key") &&
+                      _vm._k($event.keyCode, "esc", 27, $event.key, [
+                        "Esc",
+                        "Escape"
+                      ])
+                    ) {
+                      return null
+                    }
+                    _vm.editing = false
                   }
-                  return _vm.update($event)
-                },
+                ],
                 input: function($event) {
                   if ($event.target.composing) {
                     return
