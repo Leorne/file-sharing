@@ -105,23 +105,36 @@
             },
 
             getName() {
-                return 'Name:  ' + `'${this.file.name}'`;
+                // let name = (this.file.name.length > 100) ? `${this.file.name.splice(0,100)}...` : this.file.name;
+                let name = this.file.name;
+                return 'Name:  ' + `'${name}'`;
             },
 
             getSize() {
-              return 'Size:  ' + `${this.file.size}`;
+                let bytes = this.file.size;
+                let units = ['B', 'KB', 'MB', 'GB', 'TB'];
+                let i = 0;
+                while (bytes >= 1024) {
+                    bytes /= 1024;
+                    i++;
+                }
+                i = (units.length < i) ? 4 : i;
+                let formatSize = Math.round(bytes) + ' ' + units[i];
+                return 'Size:  ' + `~${formatSize}`;
             },
 
             getType() {
-                return 'Type:  ' + `${this.file.type}`;
+                let type = this.file.type;
+                type = type.split('/');
+                return 'Type:  ' + `${type[0]}`;
             },
         },
 
         watch: {
-          file() {
-            console.log(this.file);
-
-          },
+            file() {
+                let string = '__g11_hk416_ump45_and_ump9_girls_frontline_drawn_by_junsuina_fujunbutsu__6cac54ab799f4d5b799db21446b7f1cc';
+                console.log(string.length);
+                },
         },
 
         data() {
@@ -137,12 +150,12 @@
             },
 
             submit() {
-                let data = new FormData();
                 if (!(!!this.file)) return flash('Please select file to upload!', 'error');
+                let data = new FormData();
                 data.append('file', this.file);
                 axios.post('/upload', data)
                     .then(this.success).finally(() => {
-                        this.file = null
+                    this.file = null
                 });
             },
 

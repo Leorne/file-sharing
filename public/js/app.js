@@ -2587,18 +2587,34 @@ __webpack_require__.r(__webpack_exports__);
       return window.App.signedIn;
     },
     getName: function getName() {
-      return 'Name:  ' + "'".concat(this.file.name, "'");
+      // let name = (this.file.name.length > 100) ? `${this.file.name.splice(0,100)}...` : this.file.name;
+      var name = this.file.name;
+      return 'Name:  ' + "'".concat(name, "'");
     },
     getSize: function getSize() {
-      return 'Size:  ' + "".concat(this.file.size);
+      var bytes = this.file.size;
+      var units = ['B', 'KB', 'MB', 'GB', 'TB'];
+      var i = 0;
+
+      while (bytes >= 1024) {
+        bytes /= 1024;
+        i++;
+      }
+
+      i = units.length < i ? 4 : i;
+      var formatSize = Math.round(bytes) + ' ' + units[i];
+      return 'Size:  ' + "~".concat(formatSize);
     },
     getType: function getType() {
-      return 'Type:  ' + "".concat(this.file.type);
+      var type = this.file.type;
+      type = type.split('/');
+      return 'Type:  ' + "".concat(type[0]);
     }
   },
   watch: {
     file: function file() {
-      console.log(this.file);
+      var string = '__g11_hk416_ump45_and_ump9_girls_frontline_drawn_by_junsuina_fujunbutsu__6cac54ab799f4d5b799db21446b7f1cc';
+      console.log(string.length);
     }
   },
   data: function data() {
@@ -2614,8 +2630,8 @@ __webpack_require__.r(__webpack_exports__);
     submit: function submit() {
       var _this = this;
 
-      var data = new FormData();
       if (!!!this.file) return flash('Please select file to upload!', 'error');
+      var data = new FormData();
       data.append('file', this.file);
       axios.post('/upload', data).then(this.success)["finally"](function () {
         _this.file = null;
