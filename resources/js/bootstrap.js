@@ -42,7 +42,7 @@ window.Vue.prototype.authorize = function(handler){
 
     if(! user) return false;
 
-    if(admins.indexOf(user.name) != -1) return true;
+    if(admins.indexOf(user.name) !== -1) return true;
 
     return handler(window.App.user);
 };
@@ -51,6 +51,6 @@ window.Vue.prototype.authorize = function(handler){
 
 window.events = new Vue();
 
-window.flash = function (message) {
-    window.events.$emit('flash', message);
+window.flash = function (message, type = 'success') {
+    window.events.$emit('flash', message, type);
 };

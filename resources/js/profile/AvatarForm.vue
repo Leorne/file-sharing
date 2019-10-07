@@ -37,7 +37,6 @@
 
         methods: {
             onChange(e) {
-                console.log(e);
                 if (!e.target.files.length) return null;
                 let newAvatar = e.target.files[0];
                 let reader = new FileReader();

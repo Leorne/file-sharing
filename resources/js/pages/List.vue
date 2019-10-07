@@ -26,7 +26,7 @@
                 </tbody>
             </table>
         </div>
-<!--        <paginator :dataSet="dataSet" @changed="fetch"></paginator>-->
+        <paginator :dataSet="dataSet" @changed="fetch"></paginator>
     </div>
 </template>
 

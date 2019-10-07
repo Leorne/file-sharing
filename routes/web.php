@@ -12,7 +12,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('/upload', 'FileController@store');
 Route::get('/list', 'FileController@index')->name('list');
-Route::get('/list/{file}', 'FileController@show');
+Route::get('/list/{file}', 'FileController@show')->name('file');
 Route::delete('/list/{file}', 'FileController@destroy');
 
 Route::post('/list/{file}/reply', 'ReplyController@store');

@@ -53,9 +53,17 @@ class FileController extends Controller
         if (!isset($data['error'])) {
             $file = File::create($data);
             //OK
+            if (\request()->json()) {
+                $request->session()->flash('flash', 'File has been uploaded.');
+                return $file->path();
+//                return ('file', $file)->with('flash', 'File has been uploaded.');
+//                return redirect($file->path())->with('flash', 'File uploaded.');
+//                return $file->path()->with('flash', 'File uploaded.');
+            }
+
             return redirect($file->path())->with('flash', 'File uploaded.');
         };
-        return redirect('/main', 422);
+        return redirect('/', 422);
     }
 
     /**
