@@ -57018,7 +57018,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "mb-2" }, [
+  return _c("div", { staticClass: "form-group mb-2" }, [
     _c("input", {
       directives: [
         {
@@ -57028,7 +57028,12 @@ var render = function() {
           expression: "searchText"
         }
       ],
-      attrs: { type: "text", name: "searchText", id: "searchText" },
+      attrs: {
+        type: "text",
+        name: "searchText",
+        placeholder: "Search...",
+        id: "searchText"
+      },
       domProps: { value: _vm.searchText },
       on: {
         keyup: function($event) {
