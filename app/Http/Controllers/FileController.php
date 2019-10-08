@@ -11,7 +11,7 @@ class FileController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except(['main', 'index', 'show']);
+        $this->middleware('auth')->except(['main', 'index', 'show', 'getList']);
     }
 
 
@@ -21,19 +21,23 @@ class FileController extends Controller
      * @param FileFilters $filters
      * @return \Illuminate\Http\Response
      */
-    public function index(FileFilters $filters)
+    public function index()
     {
+        return view('files.index');
+    }
+
+
+    /**
+     * return list for json request
+     * @param FileFilters $filters
+     * @return mixed
+     */
+    public function getList(FileFilters $filters){
         $files = File::latest()
             ->filter($filters)
             ->paginate(20);
-        if (\request()->expectsJson()) {
-            return $files;
-        }
-//        dd($files);
-
-        return view('files.index', ['files' => $files]);
+        return $files;
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -56,9 +60,6 @@ class FileController extends Controller
             if (\request()->json()) {
                 $request->session()->flash('flash', 'File has been uploaded.');
                 return $file->path();
-//                return ('file', $file)->with('flash', 'File has been uploaded.');
-//                return redirect($file->path())->with('flash', 'File uploaded.');
-//                return $file->path()->with('flash', 'File uploaded.');
             }
 
             return redirect($file->path())->with('flash', 'File uploaded.');

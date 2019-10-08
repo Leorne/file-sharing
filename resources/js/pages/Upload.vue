@@ -35,6 +35,10 @@
         display: block;
         padding-left: 10%;
         padding-right: 10%;
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .dropzone-info {
@@ -105,9 +109,7 @@
             },
 
             getName() {
-                // let name = (this.file.name.length > 100) ? `${this.file.name.splice(0,100)}...` : this.file.name;
-                let name = this.file.name;
-                return 'Name:  ' + `'${name}'`;
+                return 'Name:  ' + `'${this.file.name}'`;
             },
 
             getSize() {

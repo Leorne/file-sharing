@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Helpers\FileHelper;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class File extends Model
@@ -56,9 +57,13 @@ class File extends Model
         return asset("storage/{$path}");
     }
 
-
     public function extensionImage(){
         return FileHelper::extensionImagePath($this->extension);
+    }
+
+    public function getUpdatedAtAttribute($time)
+    {
+        return Carbon::parse($time)->diffForHumans();
     }
 
     public function scopeFilter($query, $filters)
