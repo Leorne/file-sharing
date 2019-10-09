@@ -1,40 +1,17 @@
 <style>
-    .avatar-input {
-        cursor: pointer;
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        opacity: 0;
-    }
 
-    .avatar-text {
-        color: #fff;
-    }
-
-    .avatar-form {
-        background-color: #343a40;
-    }
 </style>
 
 <template>
     <div>
         <div class="text-center card p-2 m-2">
-            <img :src="avatar" class="img-fluid mx-auto d-block my-4 avatar" width="200px" height="200px">
+            <img :src="avatar" class="img-fluid mx-auto d-block my-4 avatar rounded-circle" width="200px" height="200px">
             <h1 v-text="this.user.name"></h1>
             <status-form class="m-2" :user="this.user"></status-form>
         </div>
-
-        <!--        <form v-if="canUpdate" method="POST" class="form-control-file" enctype="multipart/form-data">-->
-        <!--            <div class="card mx-auto avatar-form">-->
-        <!--                <h4 class="text-center avatar-text my-auto">Click here to change your avatar.</h4>-->
-        <!--                <input type="file" name="avatar" class="avatar-input" accept="image/*" @change="onChange">-->
-        <!--            </div>-->
-        <!--        </form>-->
-        <div id="">
-            <a class="btn btn-primary" @click="toggleShow">set avatar</a>
-            <my-upload field="img"
+        <div v-if="canUpdate">
+            <input type="button" class="btn btn-dark" @click="toggleShow" value="Click here to change profile photo.">
+            <my-upload field="avatar"
                        :lang-type="'en'"
                        @crop-success="cropSuccess"
                        @crop-upload-success="cropUploadSuccess"
@@ -46,7 +23,6 @@
                        :params="params"
                        :headers="headers"
                        img-format="png"></my-upload>
-            <img :src="imgDataUrl">
         </div>
 
     </div>
@@ -62,9 +38,6 @@
         props: ['user'],
 
 
-        created() {
-        },
-
         data() {
             return {
                 avatar: this.user.avatar_path,
@@ -76,7 +49,6 @@
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest'
                 },
-                imgDataUrl: '',
                 url: `/profiles/${this.user.id}/avatar`,
             }
         },
@@ -90,47 +62,21 @@
 
 
         methods: {
-            onChange(e) {
-                if (!e.target.files.length) return null;
-                let newAvatar = e.target.files[0];
-                let reader = new FileReader();
-
-                reader.readAsDataURL(newAvatar);
-
-                reader.onload = e => {
-                    this.avatar = e.target.result;
-                };
-
-                this.submit(newAvatar);
-            },
-
-            submit(newAvatar) {
-                let data = new FormData();
-                data.append('avatar', newAvatar);
-
-                axios.post(`/profiles/${this.user.id}/avatar`, data)
-                    .then(flash('Avatar updated!'));
-            },
-
             toggleShow() {
               this.show = !this.show;
             },
 
-            cropSuccess(imageDataUrl, field) {
-                flash('Crop success.');
-                this.imgDataUrl = imageDataUrl;
+            cropSuccess(newAvatar) {
+                this.avatar = newAvatar;
             },
 
-            cropUploadSuccess(jsonData, field) {
-                flash('Crop upload success');
-                console.log(jsonData);
-                console.log('field: ' + field);
+            cropUploadSuccess() {
+                this.toggleShow();
+                flash('Profile photo has been changed.');
             },
 
-            cropUploadFail(status, field) {
-                flash('Upload fail', 'error');
-                console.log(status);
-                console.log('field: ' + field);
+            cropUploadFail() {
+                flash('Please, try one more time or later.', 'error');
             },
         }
     }

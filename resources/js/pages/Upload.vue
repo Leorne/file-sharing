@@ -132,13 +132,6 @@
             },
         },
 
-        watch: {
-            file() {
-                let string = '__g11_hk416_ump45_and_ump9_girls_frontline_drawn_by_junsuina_fujunbutsu__6cac54ab799f4d5b799db21446b7f1cc';
-                console.log(string.length);
-                },
-        },
-
         data() {
             return {
                 file: null,
