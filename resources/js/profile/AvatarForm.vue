@@ -1,3 +1,22 @@
+<style>
+    .avatar-input {
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+    }
+
+    .avatar-text{
+        color: #fff;
+    }
+    .avatar-form{
+        background-color: #343a40;
+    }
+</style>
+
 <template>
     <div>
         <div class="text-center card p-2 m-2">
@@ -7,9 +26,9 @@
         </div>
 
         <form v-if="canUpdate" method="POST" class="form-control-file" enctype="multipart/form-data">
-            <div class="card p-3 mx-auto">
-                <h4 class="text-center">Change your avatar here.</h4>
-                <input type="file" name="avatar" class="my-1" accept="image/*" @change="onChange">
+            <div class="card mx-auto avatar-form">
+                <h4 class="text-center avatar-text my-auto">Click here to change your avatar.</h4>
+                <input type="file" name="avatar" class="avatar-input" accept="image/*" @change="onChange">
             </div>
         </form>
 

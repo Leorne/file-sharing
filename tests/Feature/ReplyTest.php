@@ -27,8 +27,11 @@ class ReplyTest extends TestCase
         $reply = make('App\Reply');
 
         $this->post('/list/1/reply', ['body' => $reply->body]);
-        $this->get('/list/1')
-            ->assertSee($reply->body);
+        $this->assertDatabaseHas('replies', [
+            'file_id' => 1,
+            'body' => $reply->body,
+            'user_id' => auth()->id()
+        ]);
     }
 
     /** @test */

@@ -18,15 +18,17 @@ class FileListTest extends TestCase
         $fileCommented = create('App\File');
         $reply = create('App\Reply', ['file_id' => $fileCommented->id]);
 
-        $response = $this->getJson('/list?uncommented=1')->json();
+        $response = $this->getJson('/list/get/files?uncommented=1')->json();
 
         $this->assertCount(1, $response['data']);
     }
 
+    /** @test */
     function a_user_may_get_paginated_files_list()
     {
-        $file = factory('App\File',10)->create();
-        $response = $this->getJson('/list')->json();
+        $file = factory('App\File',21)->create();
+        $response = $this->getJson('/list/get/files')->json();
+        $this->assertCount(20,$response['data']);
     }
 
 }

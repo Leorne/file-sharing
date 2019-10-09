@@ -83,7 +83,7 @@
                                 </div>
                             </form>
                             <div class="text-center">
-                                <input type="button" class="btn btn-primary" @click="submit" value="Upload file.">
+                                <input type="button" class="btn btn-dark" @click="submit" value="Upload file.">
                             </div>
                         </div>
                         <div v-else>
@@ -109,7 +109,7 @@
             },
 
             getName() {
-                return 'Name:  ' + `'${this.file.name}'`;
+                return 'Name:  ' + `${this.file.name}`;
             },
 
             getSize() {

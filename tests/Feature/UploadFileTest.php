@@ -22,11 +22,15 @@ class UploadFileTest extends TestCase
     {
         $this->signIn();
         \Storage::fake('public');
+        $user = \Auth::user();
         $this->postJson('/upload', ['file' => $file = UploadedFile::fake()->image('testImage.jpg')]);
-        \Storage::disk('public')->assertExists('uploads/' . \Auth::user()->id . '/' . $file->hashName());
+        $path = 'uploads/' . $user->id .'/' .$file->hashName();
+        \Storage::disk('public')->assertExists($path);
 
-        $this->get('/list')
-            ->assertSee($file->name);
+        $this->assertDatabaseHas('files', [
+            'user_id' => $user->id,
+            'path' => $path,
+        ]);
     }
 
     /** @test */
