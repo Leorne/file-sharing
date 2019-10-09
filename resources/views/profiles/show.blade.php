@@ -2,7 +2,9 @@
 
 @section('content')
     <div class="container">
-        <profile-form :user="{{ $profileUser }}"></profile-form>
+        <profile-form :user="{{ $profileUser }}">
+{{--            {{ csrf_field() }}--}}
+        </profile-form>
 
         <div class="card-header mt-5 text-center">Activity feed</div>
         <div class="card py-2">

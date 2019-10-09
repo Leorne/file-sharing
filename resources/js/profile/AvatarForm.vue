@@ -9,10 +9,11 @@
         opacity: 0;
     }
 
-    .avatar-text{
+    .avatar-text {
         color: #fff;
     }
-    .avatar-form{
+
+    .avatar-form {
         background-color: #343a40;
     }
 </style>
@@ -25,22 +26,61 @@
             <status-form class="m-2" :user="this.user"></status-form>
         </div>
 
-        <form v-if="canUpdate" method="POST" class="form-control-file" enctype="multipart/form-data">
-            <div class="card mx-auto avatar-form">
-                <h4 class="text-center avatar-text my-auto">Click here to change your avatar.</h4>
-                <input type="file" name="avatar" class="avatar-input" accept="image/*" @change="onChange">
-            </div>
-        </form>
+        <!--        <form v-if="canUpdate" method="POST" class="form-control-file" enctype="multipart/form-data">-->
+        <!--            <div class="card mx-auto avatar-form">-->
+        <!--                <h4 class="text-center avatar-text my-auto">Click here to change your avatar.</h4>-->
+        <!--                <input type="file" name="avatar" class="avatar-input" accept="image/*" @change="onChange">-->
+        <!--            </div>-->
+        <!--        </form>-->
+        <div id="">
+            <a class="btn btn-primary" @click="toggleShow">set avatar</a>
+            <my-upload field="img"
+                       :lang-type="'en'"
+                       @crop-success="cropSuccess"
+                       @crop-upload-success="cropUploadSuccess"
+                       @crop-upload-fail="cropUploadFail"
+                       v-model="show"
+                       :width="300"
+                       :height="300"
+                       :url="this.url"
+                       :params="params"
+                       :headers="headers"
+                       img-format="png"></my-upload>
+            <img :src="imgDataUrl">
+        </div>
 
     </div>
 </template>
 
 <script>
     import StatusForm from "./StatusForm";
+    import myUpload from 'vue-image-crop-upload'
+
     export default {
-        components: { StatusForm },
+        components: {StatusForm, myUpload},
 
         props: ['user'],
+
+
+        created() {
+        },
+
+        data() {
+            return {
+                avatar: this.user.avatar_path,
+                show: false,
+                params: {
+                    name: 'avatar',
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                },
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                imgDataUrl: '',
+                url: `/profiles/${this.user.id}/avatar`,
+            }
+        },
+
 
         computed: {
             canUpdate() {
@@ -48,11 +88,6 @@
             }
         },
 
-        data() {
-            return {
-                avatar: this.user.avatar_path,
-            }
-        },
 
         methods: {
             onChange(e) {
@@ -64,7 +99,7 @@
 
                 reader.onload = e => {
                     this.avatar = e.target.result;
-                }
+                };
 
                 this.submit(newAvatar);
             },
@@ -75,6 +110,27 @@
 
                 axios.post(`/profiles/${this.user.id}/avatar`, data)
                     .then(flash('Avatar updated!'));
+            },
+
+            toggleShow() {
+              this.show = !this.show;
+            },
+
+            cropSuccess(imageDataUrl, field) {
+                flash('Crop success.');
+                this.imgDataUrl = imageDataUrl;
+            },
+
+            cropUploadSuccess(jsonData, field) {
+                flash('Crop upload success');
+                console.log(jsonData);
+                console.log('field: ' + field);
+            },
+
+            cropUploadFail(status, field) {
+                flash('Upload fail', 'error');
+                console.log(status);
+                console.log('field: ' + field);
             },
         }
     }
