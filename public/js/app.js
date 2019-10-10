@@ -2392,6 +2392,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -64493,8 +64502,27 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "card-footer text-muted" }, [
+                    _c("div", { staticClass: "card-text row" }, [
+                      _c("div", { staticClass: "col-8" }, [
+                        _c("span", { staticClass: "text-left" }, [
+                          _vm._v("Comments: " + _vm._s(item.replies_count))
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-4" }, [
+                        _c(
+                          "span",
+                          {
+                            staticClass: "fas fa-star text-right",
+                            attrs: { "aria-hidden": "true" }
+                          },
+                          [_vm._v(_vm._s(item.favorites_count))]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
                     _c("p", {
-                      staticClass: "card-text",
+                      staticClass: "card-text text-center",
                       domProps: {
                         textContent: _vm._s(
                           "Last activity was " + item.updated_at

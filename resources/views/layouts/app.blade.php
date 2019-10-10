@@ -34,7 +34,7 @@
 
         .level {
             display: flex;
-            align-items: center;
+            /*align-items: center;*/
         }
 
         .flex {
@@ -77,6 +77,7 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="/list?comments=1">Most Commented</a>
                             <a class="dropdown-item" href="/list?uncommented=1">Uncommented files</a>
+                            <a class="dropdown-item" href="/list?favorable=1">Most Favorable</a>
                             @if(auth()->check())
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="/list?by={{ auth()->user()->name}}">My Files</a>

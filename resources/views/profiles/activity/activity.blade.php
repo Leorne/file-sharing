@@ -1,12 +1,8 @@
 <div class="card-header">
-    <div class="level">
-        <span class="flex">
-            {{ $header }}
-        </span>
-    </div>
+    {{ $header }}
 </div>
 @if(isset($body))
-<div class="card-body">
-    {{ $body }}
-</div>
+    <div class="card-body">
+        {{ $body }}
+    </div>
 @endif
