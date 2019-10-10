@@ -51,6 +51,20 @@
         font-size: 80%;
     }
 
+    .loading {
+        position: relative;
+        display: block;
+        text-align: center;
+    }
+
+
+    .loading-text {
+        position: relative;
+        display: block;
+        padding-left: 40%;
+        padding-right: 40%;
+        text-align: center;
+    }
 
 </style>
 
@@ -65,7 +79,7 @@
                             <h1>
                                 Hello. You can upload the file!
                             </h1>
-                        </span>
+                            </span>
                             <form class="form-control-file" method="POST" enctype="multipart/form-data">
                                 <div class="dropzone-area form-group">
                                     <div class="dropzone-text" v-if="!(!!this.file)">
@@ -73,17 +87,33 @@
                                         <span class="dropzone-info">File size should be not more then 100MB</span>
                                     </div>
                                     <div class="dropzone-text" v-else>
-                                        <span class="dropzone-title" v-text="getName"></span>
-                                        <span class="dropzone-title" v-text="getSize"></span>
-                                        <span class="dropzone-title" v-text="getType"></span>
+                                        <span v-if="!this.loading">
+                                            <span class="dropzone-title" v-text="getName"></span>
+                                            <span class="dropzone-title" v-text="getSize"></span>
+                                            <span class="dropzone-title" v-text="getType"></span>
+                                        </span>
+                                        <div v-else class="">
+                                            <div class="loading">
+                                                <circles-to-rhombuses-spinner
+                                                    class="mx-auto mb-1"
+                                                    :animation-duration="2000"
+                                                    :circles-num="3"
+                                                    :circles-size="25"
+                                                    :color="'#343a40'"
+                                                />
+                                            </div>
+                                            <div class="loading text-center">
+                                                <h4>Loading...</h4>
+                                            </div>
+                                        </div>
                                     </div>
                                     <input type="file" name="file"
                                            class="dropzone-area input-dropzone form-control-file mb-3"
                                            @change="onChange">
                                 </div>
                             </form>
-                            <div class="text-center">
-                                <input type="button" class="btn btn-dark" @click="submit" value="Upload file.">
+                            <div class="text-center" v-if="this.submit">
+                                <input type="button" class="btn btn-dark" @click="sendFile" value="Upload file.">
                             </div>
                         </div>
                         <div v-else>
@@ -101,7 +131,11 @@
 </template>
 
 <script>
+    import {CirclesToRhombusesSpinner} from 'epic-spinners'
+
     export default {
+
+        components: {CirclesToRhombusesSpinner},
 
         computed: {
             canUpload() {
@@ -135,6 +169,8 @@
         data() {
             return {
                 file: null,
+                loading: false,
+                submit: false,
             }
         },
 
@@ -142,16 +178,17 @@
             onChange(e) {
                 if (!e.target.files.length) return null;
                 this.file = e.target.files[0];
+                this.submit = !this.submit;
             },
 
-            submit() {
+            sendFile() {
                 if (!(!!this.file)) return flash('Please select file to upload!', 'error');
                 let data = new FormData();
                 data.append('file', this.file);
+                this.submit = !this.submit;
+                this.loading = !this.loading;
                 axios.post('/upload', data)
-                    .then(this.success).finally(() => {
-                    this.file = null
-                });
+                    .then(this.success);
             },
 
             success(response) {
@@ -160,7 +197,12 @@
             },
 
             redirect(url) {
-                window.location.replace(url);
+                window.location.replace(url)
+                    .finally(() => {
+                        this.file = null;
+                        this.loading = !this.loading;
+                        this.submit = !this.submit;
+                    });
             },
         },
 

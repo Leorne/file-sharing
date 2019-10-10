@@ -24,6 +24,7 @@
     "vue-template-compiler": "^2.6.10"
   },
   "dependencies": {
+    "epic-spinners": "^1.1.0",
     "moment": "^2.24.0",
     "vue-image-crop-upload": "^2.5.0"
   }
