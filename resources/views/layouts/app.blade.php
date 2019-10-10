@@ -34,7 +34,8 @@
 
         .level {
             display: flex;
-            /*align-items: center;*/
+            align-items: start;
+            justify-content: flex-start;
         }
 
         .flex {

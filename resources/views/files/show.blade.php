@@ -53,9 +53,11 @@
                                         <li class="list-group-item">Size: {{ $file->size }}</li>
                                         <li class="list-group-item">Uploaded
                                             at: {{ $file->created_at->toDayDateTimeString() }}</li>
-                                        <li class="list-group-item">Uploader: <img class="m-1"
-                                                src="{{ $file->uploader->avatar_path }}" width="20px" height="20px"><a
-                                                href="{{ route('profile', $file->uploader) }}">{{ $file->uploader->name }}</a>
+                                        <li class="list-group-item level">
+                                            <span class="flex">Uploader:</span>
+                                            <span class="flex">
+                                                <profile-flash :user="{{ $file->uploader }}"></profile-flash>
+                                            </span>
                                         </li>
                                     </ul>
                                 </div>
