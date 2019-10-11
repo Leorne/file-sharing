@@ -5,13 +5,15 @@ A project created to study the Laravel framework.
 
 
 ## Used technologies
-1. Twitter Bootstrap
-2. Laravel framework
-3. Vue.js
+1. Laravel framework 
+2. Vue.js 2
+3. Twitter Bootstrap 4.0
 
 
 ## Installation
 
+-Clone project
+`git clone https://github.com/Leorne/file-sharing.git`
 
 - Install components
 ```shell
