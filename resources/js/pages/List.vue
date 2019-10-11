@@ -10,9 +10,16 @@
                             <a :href="'/list/'+item.id" v-text="item.name"></a>
                         </div>
                         <div class="card-body">
-                            <p class="card-text">
-                                Uploader: <a :href="'/profiles/'+item.uploader.id" v-text="item.uploader.name"></a>
-                            </p>
+                            <div style="position: relative">
+                                <p class="card-text level">
+                                <span class="flex">
+                                    Uploader:
+                                </span>
+                                    <span class="flex">
+                                    <profile-flash :user="item.uploader"></profile-flash>
+                                </span>
+                                </p>
+                            </div>
                             <p class="card-text" v-text="'Size: ' + item.size"></p>
                             <p class="card-text">
                                 Uploaded at {{ item.created_at | moment }}

@@ -2142,13 +2142,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['user'],
+  computed: {},
   data: function data() {
     return {
+      hover: false,
       profilePath: location.origin + '/profiles/' + this.user.id
     };
   }
@@ -2321,6 +2320,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['data'],
@@ -2431,6 +2436,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Paginator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Paginator */ "./resources/js/components/Paginator.vue");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -7871,7 +7883,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\na{\n    color: black;\n}\na:hover {\n    color: #1b97a0;\n}\n.poster{\n    /*display: inline;*/\n    position:relative;\n}\n.descr{\n    display:none;\n    margin-top:17px;\n    background: #ffffff;\n    padding: 10px;\n    box-shadow: 0px 0px 15px 2px #222222;\n}\n.poster:hover .descr{\n    display:block;\n    position:absolute;\n    top:10px;\n    z-index: 9999;\n    /*width: auto;*/\n}\n", ""]);
+exports.push([module.i, "\n.name {\n    color: black;\n}\n.name:hover {\n    color: #1b97a0;\n}\n.user {\n    position: relative;\n}\n.user-info {\n    position: absolute;\n    display:block;\n    margin-top: 17px;\n    background: #ffffff;\n    padding: 10px;\n    box-shadow: 0px 0px 15px 2px #222222;\n    top: 10px;\n    z-index: 9999;\n}\n", ""]);
 
 // exports
 
@@ -64321,53 +64333,82 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("span", [
-    _c("div", { staticClass: "poster" }, [
-      _c("img", {
-        staticClass: "m-1",
-        attrs: { src: _vm.user.avatar_path, width: "20px", height: "20px" }
-      }),
-      _c("a", {
-        attrs: { href: this.profilePath },
-        domProps: { textContent: _vm._s(_vm.user.name) }
-      }),
+  return _c(
+    "div",
+    {
+      on: {
+        mouseover: function($event) {
+          _vm.hover = true
+        },
+        mouseleave: function($event) {
+          _vm.hover = false
+        }
+      }
+    },
+    [
+      _c("div", { staticClass: "user" }, [
+        _c("img", {
+          staticClass: "m-1",
+          attrs: { src: _vm.user.avatar_path, width: "20px", height: "20px" }
+        }),
+        _c("a", {
+          staticClass: "name",
+          attrs: { href: this.profilePath },
+          domProps: { textContent: _vm._s(_vm.user.name) }
+        })
+      ]),
       _vm._v(" "),
-      _c("div", { staticClass: "descr" }, [
-        _c("div", { staticClass: "row justify-content-between" }, [
-          _c(
-            "div",
+      _c(
+        "div",
+        {
+          directives: [
             {
-              staticClass: "col-6",
-              staticStyle: { "border-right": "1px solid #494949" }
-            },
-            [
-              _c("img", {
-                staticClass: "img-fluid",
-                attrs: {
-                  src: _vm.user.avatar_path,
-                  alt: "",
-                  width: "150",
-                  height: "150"
-                }
-              })
-            ]
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-6 text-center" }, [
-            _c("a", {
-              attrs: { href: this.profilePath },
-              domProps: { textContent: _vm._s(_vm.user.name) }
-            }),
+              name: "show",
+              rawName: "v-show",
+              value: _vm.hover,
+              expression: "hover"
+            }
+          ],
+          staticClass: "user-info"
+        },
+        [
+          _c("div", { staticClass: "row" }, [
+            _c(
+              "div",
+              {
+                staticClass: "col-6",
+                staticStyle: { "border-right": "1px solid #494949" }
+              },
+              [
+                _c("img", {
+                  staticClass: "img-fluid",
+                  attrs: {
+                    src: _vm.user.avatar_path,
+                    alt: "",
+                    width: "150",
+                    height: "150"
+                  }
+                })
+              ]
+            ),
             _vm._v(" "),
-            _c("p", {
-              staticClass: "text-muted small",
-              domProps: { textContent: _vm._s(_vm.user.status_message) }
-            })
+            _c("div", { staticClass: "col-6 text-center" }, [
+              _c("a", {
+                staticClass: "name",
+                attrs: { href: this.profilePath },
+                domProps: { textContent: _vm._s(_vm.user.name) }
+              }),
+              _vm._v(" "),
+              _c("p", {
+                staticClass: "text-muted small",
+                domProps: { textContent: _vm._s(_vm.user.status_message) }
+              })
+            ])
           ])
-        ])
-      ])
-    ])
-  ])
+        ]
+      )
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -64461,13 +64502,22 @@ var render = function() {
     { staticClass: "card mb-3", attrs: { id: "reply-" + _vm.id } },
     [
       _c("div", { staticClass: "card-header" }, [
-        _vm._v("\n        Posted by "),
-        _c("a", {
-          attrs: { href: "/profiles/" + _vm.data.owner.id },
-          domProps: { textContent: _vm._s(_vm.data.owner.name) }
-        }),
-        _vm._v(", "),
-        _c("span", { domProps: { textContent: _vm._s(_vm.ago) } })
+        _c(
+          "div",
+          { staticClass: "row", staticStyle: { position: "relative" } },
+          [
+            _c(
+              "div",
+              { staticClass: "col-8" },
+              [_c("profile-flash", { attrs: { user: _vm.data.owner } })],
+              1
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-4 text-right" }, [
+              _c("span", { domProps: { textContent: _vm._s(_vm.ago) } })
+            ])
+          ]
+        )
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "card-body" }, [
@@ -64667,12 +64717,25 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "card-body" }, [
-                    _c("p", { staticClass: "card-text" }, [
-                      _vm._v("\n                            Uploader: "),
-                      _c("a", {
-                        attrs: { href: "/profiles/" + item.uploader.id },
-                        domProps: { textContent: _vm._s(item.uploader.name) }
-                      })
+                    _c("div", { staticStyle: { position: "relative" } }, [
+                      _c("p", { staticClass: "card-text level" }, [
+                        _c("span", { staticClass: "flex" }, [
+                          _vm._v(
+                            "\n                                Uploader:\n                            "
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "span",
+                          { staticClass: "flex" },
+                          [
+                            _c("profile-flash", {
+                              attrs: { user: item.uploader }
+                            })
+                          ],
+                          1
+                        )
+                      ])
                     ]),
                     _vm._v(" "),
                     _c("p", {
@@ -78084,15 +78147,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!***************************************!*\
   !*** ./resources/js/pages/Upload.vue ***!
   \***************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Upload_vue_vue_type_template_id_e3830f6c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Upload.vue?vue&type=template&id=e3830f6c& */ "./resources/js/pages/Upload.vue?vue&type=template&id=e3830f6c&");
 /* harmony import */ var _Upload_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Upload.vue?vue&type=script&lang=js& */ "./resources/js/pages/Upload.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _Upload_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _Upload_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _Upload_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Upload.vue?vue&type=style&index=0&lang=css& */ "./resources/js/pages/Upload.vue?vue&type=style&index=0&lang=css&");
+/* empty/unused harmony star reexport *//* harmony import */ var _Upload_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Upload.vue?vue&type=style&index=0&lang=css& */ "./resources/js/pages/Upload.vue?vue&type=style&index=0&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -78124,7 +78186,7 @@ component.options.__file = "resources/js/pages/Upload.vue"
 /*!****************************************************************!*\
   !*** ./resources/js/pages/Upload.vue?vue&type=script&lang=js& ***!
   \****************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

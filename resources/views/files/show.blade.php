@@ -53,11 +53,15 @@
                                         <li class="list-group-item">Size: {{ $file->size }}</li>
                                         <li class="list-group-item">Uploaded
                                             at: {{ $file->created_at->toDayDateTimeString() }}</li>
-                                        <li class="list-group-item level">
-                                            <span class="flex">Uploader:</span>
-                                            <span class="flex">
+                                        <li class="list-group-item">
+                                            <div style="position: relative">
+                                                <div class="level">
+                                                    <span class="flex">Uploader:</span>
+                                                    <span class="flex">
                                                 <profile-flash :user="{{ $file->uploader }}"></profile-flash>
                                             </span>
+                                                </div>
+                                            </div>
                                         </li>
                                     </ul>
                                 </div>

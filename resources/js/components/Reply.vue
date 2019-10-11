@@ -1,8 +1,14 @@
 <template>
     <div :id="'reply-'+id" class="card mb-3">
         <div class="card-header">
-            Posted by <a
-            :href="'/profiles/'+ data.owner.id" v-text="data.owner.name"></a>, <span v-text="ago"></span>
+            <div style="position: relative" class="row">
+                    <div class="col-8">
+                        <profile-flash :user="data.owner"></profile-flash>
+                    </div>
+                    <div class="col-4 text-right">
+                        <span v-text="ago"></span>
+                    </div>
+            </div>
         </div>
 
         <div class="card-body">
