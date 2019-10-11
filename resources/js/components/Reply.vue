@@ -65,11 +65,17 @@
                 flash('Reply has been updated.');
             },
             destroy() {
-                axios.delete('/replies/' + this.data.id);
-
-                this.$emit('delete', this.data.id);
-                flash('Reply has been deleted.');
-            }
+                axios.delete('/replies/' + this.data.id).then(this.destroyResult);
+            },
+            destroyResult(response){
+              if(response.status === 200){
+                  this.$emit('delete', this.data.id);
+                  flash('Reply has been deleted.');
+              }
+              else{
+                  flash('Error', 'error');
+              }
+            },
         }
     }
 </script>

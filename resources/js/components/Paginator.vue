@@ -69,7 +69,7 @@
 
         methods: {
             broadcast() {
-                let page = ['page', this.page];
+                let page = (!!this.page) ? ['page', this.page] : ['page', 1];
                 this.$emit('changed', page);
             },
         }

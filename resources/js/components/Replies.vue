@@ -38,8 +38,6 @@
 
             url(newValue) {
                 if (!!newValue) {
-                    console.log('UpDATE URL TO');
-                    console.log(newValue);
                     let queryMap = new Map();
                     let query = location.search;
                     //if query is not empty, get query params and set to map
@@ -60,32 +58,46 @@
                         (i === (queryMap.size - 1)) ? null : query += '&';
                         i++;
                     }
-                    console.log(query);
                     history.pushState(null, null, query);
                     return `${location.pathname + '/reply'}${query}`;
                 }
-                return `${location+'/reply'}`;
+                return `${location.pathname + '/reply'}`;
             },
 
             refresh(response) {
+                console.log('REFRESHED');
+                console.log(response);
+
                 this.dataSet = response.data;
                 this.items = response.data.data;
             },
 
             add(reply) {
-                let page = (this.items.length >= this.dataSet.per_page) ? ['page', this.dataSet.current_page + 1] : null;
+                let page;
+                if(this.items.length >= this.dataSet.per_page){
+                    page =['page', this.dataSet.current_page + 1];
+                }
+                else{
+                    page = ['page', this.dataSet.current_page];
+                }
                 this.fetch(page);
                 this.repliesCount++;
             },
 
             remove(index) {
-                if(this.items.length >= 10){
-                    let page = ['page', this.dataSet.current_page + 1];
+                let page;
+                if (this.dataSet.current_page === 1) {
+                    page = ['page', 1];
+                } else {
+                    if (this.items.length === 1) {
+                        page = ['page', this.dataSet.current_page - 1];
+                    } else {
+                        page = ['page', this.dataSet.current_page];
+                    }
                 }
-                let page = ((this.current_page !== 1) && (this.items.length === 1)) ? ['page', this.dataSet.current_page - 1] : null;
-                this.items.splice(index, 1);
                 this.fetch(page);
                 this.repliesCount--;
+                this.items.splice(index,1);
             }
         }
     }

@@ -53,6 +53,7 @@
         components: {Paginator, SearchForm},
 
         created() {
+            console.log('CREATED FETCH');
             this.fetch();
         },
 
@@ -62,17 +63,10 @@
             }
         },
 
-        watch: {
-            locate() {
-                this.fetch()
-            },
-        },
-
         data() {
             return {
                 items: [],
                 dataSet: false,
-                locate: location.href,
             }
         },
 
@@ -82,7 +76,6 @@
             },
 
             url(newValue) {
-                console.log('URL UPDATE');
                 if (!!newValue) {
                     let queryMap = new Map();
                     let query = location.search;

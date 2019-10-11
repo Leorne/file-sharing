@@ -2079,7 +2079,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     broadcast: function broadcast() {
-      var page = ['page', this.page];
+      var page = !!this.page ? ['page', this.page] : ['page', 1];
       this.$emit('changed', page);
     }
   }
@@ -2203,8 +2203,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     url: function url(newValue) {
       if (!!newValue) {
-        console.log('UpDATE URL TO');
-        console.log(newValue);
         var queryMap = new Map();
         var query = location.search; //if query is not empty, get query params and set to map
 
@@ -2249,31 +2247,46 @@ __webpack_require__.r(__webpack_exports__);
           }
         }
 
-        console.log(query);
         history.pushState(null, null, query);
         return "".concat(location.pathname + '/reply').concat(query);
       }
 
-      return "".concat(location + '/reply');
+      return "".concat(location.pathname + '/reply');
     },
     refresh: function refresh(response) {
+      console.log('REFRESHED');
+      console.log(response);
       this.dataSet = response.data;
       this.items = response.data.data;
     },
     add: function add(reply) {
-      var page = this.items.length >= this.dataSet.per_page ? ['page', this.dataSet.current_page + 1] : null;
+      var page;
+
+      if (this.items.length >= this.dataSet.per_page) {
+        page = ['page', this.dataSet.current_page + 1];
+      } else {
+        page = ['page', this.dataSet.current_page];
+      }
+
       this.fetch(page);
       this.repliesCount++;
     },
     remove: function remove(index) {
-      if (this.items.length >= 10) {
-        var _page = ['page', this.dataSet.current_page + 1];
+      var page;
+
+      if (this.dataSet.current_page === 1) {
+        page = ['page', 1];
+      } else {
+        if (this.items.length === 1) {
+          page = ['page', this.dataSet.current_page - 1];
+        } else {
+          page = ['page', this.dataSet.current_page];
+        }
       }
 
-      var page = this.current_page !== 1 && this.items.length === 1 ? ['page', this.dataSet.current_page - 1] : null;
-      this.items.splice(index, 1);
       this.fetch(page);
       this.repliesCount--;
+      this.items.splice(index, 1);
     }
   }
 });
@@ -2357,9 +2370,15 @@ __webpack_require__.r(__webpack_exports__);
       flash('Reply has been updated.');
     },
     destroy: function destroy() {
-      axios["delete"]('/replies/' + this.data.id);
-      this.$emit('delete', this.data.id);
-      flash('Reply has been deleted.');
+      axios["delete"]('/replies/' + this.data.id).then(this.destroyResult);
+    },
+    destroyResult: function destroyResult(response) {
+      if (response.status === 200) {
+        this.$emit('delete', this.data.id);
+        flash('Reply has been deleted.');
+      } else {
+        flash('Error', 'error');
+      }
     }
   }
 });
@@ -2491,6 +2510,7 @@ __webpack_require__.r(__webpack_exports__);
     SearchForm: _components_SearchForm__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   created: function created() {
+    console.log('CREATED FETCH');
     this.fetch();
   },
   filters: {
@@ -2498,16 +2518,10 @@ __webpack_require__.r(__webpack_exports__);
       return moment__WEBPACK_IMPORTED_MODULE_2___default()(date).format('YY/M/D hh:mm');
     }
   },
-  watch: {
-    locate: function locate() {
-      this.fetch();
-    }
-  },
   data: function data() {
     return {
       items: [],
-      dataSet: false,
-      locate: location.href
+      dataSet: false
     };
   },
   methods: {
@@ -2515,8 +2529,6 @@ __webpack_require__.r(__webpack_exports__);
       axios.get(this.url(newValue)).then(this.refresh);
     },
     url: function url(newValue) {
-      console.log('URL UPDATE');
-
       if (!!newValue) {
         var queryMap = new Map();
         var query = location.search; //if query is not empty, get query params and set to map
