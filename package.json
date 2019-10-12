@@ -26,6 +26,7 @@
   "dependencies": {
     "epic-spinners": "^1.1.0",
     "moment": "^2.24.0",
-    "vue-image-crop-upload": "^2.5.0"
+    "vue-image-crop-upload": "^2.5.0",
+    "vue-recaptcha": "^1.2.0"
   }
 }

@@ -52,6 +52,11 @@ class FileController extends Controller
                 'file' => 'required'
             ]);
 
+        if (config('recaptcha.enabled') && !$this->checkRecaptcha($request->recaptcha_token, $request->ip())) {
+             return response()->json([
+                'error' => 'Captcha is invalid.',
+            ], Response::HTTP_BAD_REQUEST);
+        }
         $helper = new FileHelper($request->file);
         $data = $helper->getData();
         if (!isset($data['error'])) {
@@ -65,6 +70,18 @@ class FileController extends Controller
             return redirect($file->path())->with('flash', 'File uploaded.');
         };
         return redirect('/', 422);
+    }
+
+    protected function checkRecaptcha($token, $ip){
+        $response = (new Client)->post('https://www.google.com/recaptcha/api/siteverify', [
+            'form_params' => [
+                'secret'   => config('recaptcha.secret'),
+                'response' => $token,
+                'remoteip' => $ip,
+            ],
+        ]);
+        $response = json_decode((string)$response->getBody(), true);
+        return $response['success'];
     }
 
     /**

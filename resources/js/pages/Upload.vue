@@ -112,9 +112,18 @@
                                            @change="onChange">
                                 </div>
                             </form>
-                            <div class="text-center" v-if="this.submit">
-                                <input type="button" class="btn btn-dark" @click="sendFile" value="Upload file.">
-                            </div>
+                            <form method="POST" @submit.prevent="validate">
+                                <vue-recaptcha
+                                    ref="recaptcha"
+                                    size="invisible"
+                                    :sitekey="sitekey"
+                                    @verify="sendFile"
+                                    @expired="onCaptchaExpired"
+                                />
+                                <div class="text-center" v-if="this.submit">
+                                    <input type="submit" class="btn btn-dark" value="Upload file.">
+                                </div>
+                            </form>
                         </div>
                         <div v-else>
                             <span class="text-center">
@@ -131,11 +140,12 @@
 </template>
 
 <script>
+    import VueRecaptcha from 'vue-recaptcha'
     import {CirclesToRhombusesSpinner} from 'epic-spinners'
 
     export default {
 
-        components: {CirclesToRhombusesSpinner},
+        components: {CirclesToRhombusesSpinner, VueRecaptcha},
 
         computed: {
             canUpload() {
@@ -171,6 +181,7 @@
                 file: null,
                 loading: false,
                 submit: false,
+                sitekey: '6Lc_Tb0UAAAAAFGzvq6KJGvKgmFrUQYCYbtQT32V'
             }
         },
 
@@ -181,10 +192,11 @@
                 this.submit = !this.submit;
             },
 
-            sendFile() {
+            sendFile(recaptchaToken) {
                 if (!(!!this.file)) return flash('Please select file to upload!', 'error');
                 let data = new FormData();
                 data.append('file', this.file);
+                data.append('recaptchaToken', recaptchaToken);
                 this.submit = !this.submit;
                 this.loading = !this.loading;
                 axios.post('/upload', data)
@@ -203,6 +215,14 @@
                         this.loading = !this.loading;
                         this.submit = !this.submit;
                     });
+            },
+
+            onCaptchaExpired () {
+                this.$refs.recaptcha.reset()
+            },
+
+            validate () {
+                this.$refs.recaptcha.execute()
             },
         },
 
