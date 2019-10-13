@@ -38,6 +38,14 @@
                     <div class="col-6 text-center">
                         <a :href="this.profilePath" class="name" v-text="user.name"></a>
                         <p class="text-muted small" v-text="user.status_message"></p>
+                        <span style="display: block" class="text-left">
+                            <p class="fas fa-comment"></p>
+                            {{ user.replies_count }}
+                        </span>
+                        <span style="display: block" class="text-left">
+                            <p class="fas fa-upload"></p>
+                            {{ user.uploads_count}}
+                        </span>
                     </div>
                 </div>
             </div>

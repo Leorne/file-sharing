@@ -10,32 +10,19 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'name', 'email', 'password', 'avatar_path', 'status_message',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password', 'remember_token', 'email'
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected $withCount = ['replies','uploads'];
 
     public function files()
     {
@@ -51,6 +38,14 @@ class User extends Authenticatable
     {
         $default = 'storage/avatars/default.png';
         return asset($avatar ? 'storage/'. $avatar : $default);
+    }
+
+    public function replies(){
+        return $this->hasMany(Reply::class);
+    }
+
+    public function uploads(){
+        return $this->hasMany(File::class);
     }
 
     public function getStatusMessageAttribute($status){

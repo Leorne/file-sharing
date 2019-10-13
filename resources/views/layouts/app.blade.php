@@ -39,9 +39,6 @@
             justify-content: flex-start;
         }
 
-        /*.flex {*/
-        /*    flex: 1;*/
-        /*}*/
 
         [v-cloak] {
             display: none

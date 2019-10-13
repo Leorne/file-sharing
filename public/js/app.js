@@ -2142,6 +2142,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['user'],
   computed: {},
@@ -64450,7 +64458,33 @@ var render = function() {
               _c("p", {
                 staticClass: "text-muted small",
                 domProps: { textContent: _vm._s(_vm.user.status_message) }
-              })
+              }),
+              _vm._v(" "),
+              _c(
+                "span",
+                { staticClass: "text-left", staticStyle: { display: "block" } },
+                [
+                  _c("p", { staticClass: "fas fa-comment" }),
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.user.replies_count) +
+                      "\n                "
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "span",
+                { staticClass: "text-left", staticStyle: { display: "block" } },
+                [
+                  _c("p", { staticClass: "fas fa-upload" }),
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.user.uploads_count) +
+                      "\n                "
+                  )
+                ]
+              )
             ])
           ])
         ]
