@@ -41,6 +41,7 @@
         data() {
             return {
                 avatar: this.user.avatar_path,
+                newAvatar: null,
                 show: false,
                 params: {
                     name: 'avatar',
@@ -67,15 +68,18 @@
             },
 
             cropSuccess(newAvatar) {
+                this.newAvatar = newAvatar;
                 this.avatar = newAvatar;
             },
 
             cropUploadSuccess() {
-                this.toggleShow();
+                this.avatar = this.newAvatar;
+                this.newAvatar = null;
                 flash('Profile photo has been changed.');
             },
 
             cropUploadFail() {
+                // this.toggleShow();
                 flash('Please, try one more time or later.', 'error');
             },
         }
