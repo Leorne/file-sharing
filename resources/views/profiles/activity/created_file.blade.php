@@ -1,6 +1,6 @@
 @component('profiles.activity.activity');
 @slot('header')
-    Uploaded file <a
+    <i class="fas fa-upload"></i> Uploaded file <a
         href="{{ $activity->subject->path() }}">"{{ $activity->subject->name }}"</a>
 @endslot
 

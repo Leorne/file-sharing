@@ -27,12 +27,11 @@
                         </div>
                         <div class="card-footer text-muted">
                             <div class="card-text row">
-                                <div class="col-8">
-                                    <span class="text-left">Comments: {{ item.replies_count }}</span>
+                                <div class="col-6 text-left">
+                                    <span class="text-left fas fa-comments">{{ item.replies_count }}</span>
                                 </div>
-                                <div class="col-4">
-                                    <span class="fas fa-star text-right"
-                                          aria-hidden="true">{{ item.favorites_count }}</span>
+                                <div class="col-6 text-right">
+                                    <span class="fas fa-star text-right">{{ item.favorites_count }}</span>
                                 </div>
                             </div>
                             <p class="card-text text-center" v-text="'Last activity was ' + item.updated_at"></p>

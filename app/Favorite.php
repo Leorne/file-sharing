@@ -15,5 +15,4 @@ class Favorite extends Model
         return $this->morphTo();
     }
 }
-//return Favorite::where(['user_id' => $this->id, 'favorited_type' => 'App\File'])->get();
 

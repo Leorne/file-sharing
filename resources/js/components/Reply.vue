@@ -2,10 +2,12 @@
     <div :id="'reply-'+id" class="card mb-3">
         <div class="card-header">
             <div style="position: relative" class="row">
-                    <div class="col-8">
-                        <profile-flash :user="data.owner"></profile-flash>
+                    <div class="col-6">
+                        <span class="text-left">
+                            <profile-flash :user="data.owner"></profile-flash>
+                        </span>
                     </div>
-                    <div class="col-4 text-right">
+                    <div class="col-6 text-right">
                         <span v-text="ago"></span>
                     </div>
             </div>

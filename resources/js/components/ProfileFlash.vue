@@ -24,12 +24,12 @@
 </style>
 
 <template>
-        <div @mouseover="hover = true" @mouseleave="hover = false" >
-            <div class="user">
+        <span>
+            <span class="user" @mouseover="hover = true" @mouseleave="hover = false" >
                 <img class="m-1"
                      :src="user.avatar_path" width="20px" height="20px"><a
                 class="name" :href="this.profilePath" v-text="user.name"></a>
-            </div>
+            </span>
             <div class="user-info" v-show="hover">
                 <div class="row">
                     <div class="col-6" style="border-right: 1px solid #494949">
@@ -39,7 +39,7 @@
                         <a :href="this.profilePath" class="name" v-text="user.name"></a>
                         <p class="text-muted small" v-text="user.status_message"></p>
                         <span style="display: block" class="text-left">
-                            <p class="fas fa-comment"></p>
+                            <p class="fas fa-comments"></p>
                             {{ user.replies_count }}
                         </span>
                         <span style="display: block" class="text-left">
@@ -49,7 +49,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </span>
 </template>
 
 <script>

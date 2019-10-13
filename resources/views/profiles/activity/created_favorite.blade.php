@@ -1,6 +1,6 @@
 @component('profiles.activity.activity');
 @slot('header')
-    Favorite a file <a
+    <i class="fas fa-star"></i> Favorite a file <a
         href="{{ $activity->subject->favorited->path() }}">"{{ $activity->subject->favorited->name }}"</a>
 @endslot
 

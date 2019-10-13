@@ -3,8 +3,10 @@
 @section('content')
     <div class="container">
         <profile-form :user="{{ $profileUser }}"></profile-form>
-        <div class="card-header mt-5 text-center">Activity feed</div>
-        <div class="card py-2">
+        <div class="card pb-2 mt-5">
+            <div class="text-center p-2" style="background: #343a40; color: #fff">
+                <h5>Activity feed</h5>
+            </div>
             <div class="p-3">
                 @forelse($activities as $date => $gropedActivities)
                     <h5 class="page-header">{{ $date }}</h5>

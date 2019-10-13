@@ -1978,22 +1978,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      body: ''
+      body: '',
+      loading: false
     };
   },
   computed: {
     signedIn: function signedIn() {
       return window.App.signedIn;
+    },
+    canSubmit: function canSubmit() {
+      return this.loading || this.body === '';
     }
   },
   methods: {
     addReply: function addReply() {
       var _this = this;
 
+      this.loading = !this.loading;
       axios.post(location.pathname + '/reply', {
         body: this.body
       }).then(function (_ref) {
         var data = _ref.data;
+        _this.loading = !_this.loading;
         _this.body = '';
         flash('Your reply has been posted');
 
@@ -2347,6 +2353,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['data'],
@@ -2463,7 +2471,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Paginator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Paginator */ "./resources/js/components/Paginator.vue");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
-//
 //
 //
 //
@@ -64223,7 +64230,7 @@ var render = function() {
             "button",
             {
               staticClass: "btn btn-dark",
-              attrs: { type: "submit" },
+              attrs: { type: "submit", disabled: this.canSubmit },
               on: { click: _vm.addReply }
             },
             [_vm._v("Post")]
@@ -64389,20 +64396,21 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    {
-      on: {
-        mouseover: function($event) {
-          _vm.hover = true
-        },
-        mouseleave: function($event) {
-          _vm.hover = false
+  return _c("span", [
+    _c(
+      "span",
+      {
+        staticClass: "user",
+        on: {
+          mouseover: function($event) {
+            _vm.hover = true
+          },
+          mouseleave: function($event) {
+            _vm.hover = false
+          }
         }
-      }
-    },
-    [
-      _c("div", { staticClass: "user" }, [
+      },
+      [
         _c("img", {
           staticClass: "m-1",
           attrs: { src: _vm.user.avatar_path, width: "20px", height: "20px" }
@@ -64412,85 +64420,85 @@ var render = function() {
           attrs: { href: this.profilePath },
           domProps: { textContent: _vm._s(_vm.user.name) }
         })
-      ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          directives: [
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.hover,
+            expression: "hover"
+          }
+        ],
+        staticClass: "user-info"
+      },
+      [
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "div",
             {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.hover,
-              expression: "hover"
-            }
-          ],
-          staticClass: "user-info"
-        },
-        [
-          _c("div", { staticClass: "row" }, [
+              staticClass: "col-6",
+              staticStyle: { "border-right": "1px solid #494949" }
+            },
+            [
+              _c("img", {
+                staticClass: "img-fluid",
+                attrs: {
+                  src: _vm.user.avatar_path,
+                  alt: "",
+                  width: "150",
+                  height: "150"
+                }
+              })
+            ]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-6 text-center" }, [
+            _c("a", {
+              staticClass: "name",
+              attrs: { href: this.profilePath },
+              domProps: { textContent: _vm._s(_vm.user.name) }
+            }),
+            _vm._v(" "),
+            _c("p", {
+              staticClass: "text-muted small",
+              domProps: { textContent: _vm._s(_vm.user.status_message) }
+            }),
+            _vm._v(" "),
             _c(
-              "div",
-              {
-                staticClass: "col-6",
-                staticStyle: { "border-right": "1px solid #494949" }
-              },
+              "span",
+              { staticClass: "text-left", staticStyle: { display: "block" } },
               [
-                _c("img", {
-                  staticClass: "img-fluid",
-                  attrs: {
-                    src: _vm.user.avatar_path,
-                    alt: "",
-                    width: "150",
-                    height: "150"
-                  }
-                })
+                _c("p", { staticClass: "fas fa-comments" }),
+                _vm._v(
+                  "\n                    " +
+                    _vm._s(_vm.user.replies_count) +
+                    "\n                "
+                )
               ]
             ),
             _vm._v(" "),
-            _c("div", { staticClass: "col-6 text-center" }, [
-              _c("a", {
-                staticClass: "name",
-                attrs: { href: this.profilePath },
-                domProps: { textContent: _vm._s(_vm.user.name) }
-              }),
-              _vm._v(" "),
-              _c("p", {
-                staticClass: "text-muted small",
-                domProps: { textContent: _vm._s(_vm.user.status_message) }
-              }),
-              _vm._v(" "),
-              _c(
-                "span",
-                { staticClass: "text-left", staticStyle: { display: "block" } },
-                [
-                  _c("p", { staticClass: "fas fa-comment" }),
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(_vm.user.replies_count) +
-                      "\n                "
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "span",
-                { staticClass: "text-left", staticStyle: { display: "block" } },
-                [
-                  _c("p", { staticClass: "fas fa-upload" }),
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(_vm.user.uploads_count) +
-                      "\n                "
-                  )
-                ]
-              )
-            ])
+            _c(
+              "span",
+              { staticClass: "text-left", staticStyle: { display: "block" } },
+              [
+                _c("p", { staticClass: "fas fa-upload" }),
+                _vm._v(
+                  "\n                    " +
+                    _vm._s(_vm.user.uploads_count) +
+                    "\n                "
+                )
+              ]
+            )
           ])
-        ]
-      )
-    ]
-  )
+        ])
+      ]
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -64588,14 +64596,16 @@ var render = function() {
           "div",
           { staticClass: "row", staticStyle: { position: "relative" } },
           [
-            _c(
-              "div",
-              { staticClass: "col-8" },
-              [_c("profile-flash", { attrs: { user: _vm.data.owner } })],
-              1
-            ),
+            _c("div", { staticClass: "col-6" }, [
+              _c(
+                "span",
+                { staticClass: "text-left" },
+                [_c("profile-flash", { attrs: { user: _vm.data.owner } })],
+                1
+              )
+            ]),
             _vm._v(" "),
-            _c("div", { staticClass: "col-4 text-right" }, [
+            _c("div", { staticClass: "col-6 text-right" }, [
               _c("span", { domProps: { textContent: _vm._s(_vm.ago) } })
             ])
           ]
@@ -64836,21 +64846,18 @@ var render = function() {
                   _vm._v(" "),
                   _c("div", { staticClass: "card-footer text-muted" }, [
                     _c("div", { staticClass: "card-text row" }, [
-                      _c("div", { staticClass: "col-8" }, [
-                        _c("span", { staticClass: "text-left" }, [
-                          _vm._v("Comments: " + _vm._s(item.replies_count))
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-4" }, [
+                      _c("div", { staticClass: "col-6 text-left" }, [
                         _c(
                           "span",
-                          {
-                            staticClass: "fas fa-star text-right",
-                            attrs: { "aria-hidden": "true" }
-                          },
-                          [_vm._v(_vm._s(item.favorites_count))]
+                          { staticClass: "text-left fas fa-comments" },
+                          [_vm._v(_vm._s(item.replies_count))]
                         )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-6 text-right" }, [
+                        _c("span", { staticClass: "fas fa-star text-right" }, [
+                          _vm._v(_vm._s(item.favorites_count))
+                        ])
                       ])
                     ]),
                     _vm._v(" "),
