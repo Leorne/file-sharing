@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\File;
 use App\Filters\FileFilters;
 use App\Helpers\FileHelper;
+use Composer\XdebugHandler\Status;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
 class FileController extends Controller
@@ -47,16 +49,15 @@ class FileController extends Controller
      */
     public function store(Request $request)
     {
+        if (env('RECAPTCHA_ENABLED') && !$this->checkRecaptcha($request->recaptcha_token, $request->ip())) {
+            return response()->json([
+                'error' => 'Captcha is invalid.',
+            ], 400);
+        }
         $this->validate($request,
             [
                 'file' => 'required'
             ]);
-
-        if (config('recaptcha.enabled') && !$this->checkRecaptcha($request->recaptcha_token, $request->ip())) {
-             return response()->json([
-                'error' => 'Captcha is invalid.',
-            ], Response::HTTP_BAD_REQUEST);
-        }
         $helper = new FileHelper($request->file);
         $data = $helper->getData();
         if (!isset($data['error'])) {
@@ -69,7 +70,9 @@ class FileController extends Controller
 
             return redirect($file->path())->with('flash', 'File uploaded.');
         };
-        return redirect('/', 422);
+        return response()->json([
+            'error' => 'The given file was invalid.'
+        ],422);
     }
 
     protected function checkRecaptcha($token, $ip){

@@ -103,7 +103,7 @@
                                                 />
                                             </div>
                                             <div class="loading text-center">
-                                                <h4>Loading...</h4>
+                                                <h4>Uploading file.Please wait...</h4>
                                             </div>
                                         </div>
                                     </div>
@@ -120,7 +120,7 @@
                                     @verify="sendFile"
                                     @expired="onCaptchaExpired"
                                 />
-                                <div class="text-center" v-if="this.submit">
+                                <div class="text-center" v-if="!this.loading">
                                     <input type="submit" class="btn btn-dark" value="Upload file.">
                                 </div>
                             </form>
@@ -181,7 +181,8 @@
                 file: null,
                 loading: false,
                 submit: false,
-                sitekey: '6Lc_Tb0UAAAAAFGzvq6KJGvKgmFrUQYCYbtQT32V'
+                sitekey: '6Lc_Tb0UAAAAAFGzvq6KJGvKgmFrUQYCYbtQT32V',
+                sendData: null
             }
         },
 
@@ -193,19 +194,31 @@
             },
 
             sendFile(recaptchaToken) {
-                if (!(!!this.file)) return flash('Please select file to upload!', 'error');
-                let data = new FormData();
-                data.append('file', this.file);
-                data.append('recaptchaToken', recaptchaToken);
                 this.submit = !this.submit;
                 this.loading = !this.loading;
-                axios.post('/upload', data)
+                this.sendData.append('recaptcha_token', recaptchaToken);
+                axios.post('/upload', this.sendData)
+                    .catch(this.errorFlash)
                     .then(this.success);
             },
 
+            errorFlash(error) {
+                console.log(error);
+                console.log('error');
+                console.log('error');
+                console.log('error');
+                console.log('error');
+                if(!!error){
+                    this.loading = !this.loading;
+                    this.submit = !this.submit;
+                    flash('Sorry. Something went wrong.','error');
+                }
+            },
+
             success(response) {
-                let data = (response.status === 200) ? response.data : null;
-                data ? this.redirect(data) : flash('Error, try again', 'error');
+                (response.status === 200) ? this.redirect(response.data) : flash(response.error, 'error');
+                this.file = null;
+                this.loading = !this.loading;
             },
 
             redirect(url) {
@@ -217,11 +230,15 @@
                     });
             },
 
-            onCaptchaExpired () {
+            onCaptchaExpired() {
                 this.$refs.recaptcha.reset()
             },
 
-            validate () {
+            validate() {
+                if (!(!!this.file)) return flash('Please select file to upload!', 'error');
+                let data = new FormData();
+                data.append('file', this.file);
+                this.sendData = data;
                 this.$refs.recaptcha.execute()
             },
         },
