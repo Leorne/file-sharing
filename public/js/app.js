@@ -2516,6 +2516,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -2801,7 +2803,8 @@ __webpack_require__.r(__webpack_exports__);
       loading: false,
       submit: false,
       sitekey: '6Lc_Tb0UAAAAAFGzvq6KJGvKgmFrUQYCYbtQT32V',
-      sendData: null
+      sendData: null,
+      error: null
     };
   },
   methods: {
@@ -2817,20 +2820,17 @@ __webpack_require__.r(__webpack_exports__);
       axios.post('/upload', this.sendData)["catch"](this.errorFlash).then(this.success);
     },
     errorFlash: function errorFlash(error) {
-      console.log(error);
-      console.log('error');
-      console.log('error');
-      console.log('error');
-      console.log('error');
-
       if (!!error) {
+        !!error.response.data.error ? flash(error.response.data.error, 'error') : flash('Sorry. Something went wrong.', 'error');
+        this.file = null;
         this.loading = !this.loading;
-        this.submit = !this.submit;
-        flash('Sorry. Something went wrong.', 'error');
       }
     },
     success: function success(response) {
-      response.status === 200 ? this.redirect(response.data) : flash(response.error, 'error');
+      if (response.status === 200) {
+        this.redirect(response.data);
+      }
+
       this.file = null;
       this.loading = !this.loading;
     },
@@ -64834,10 +64834,13 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _c("p", {
-                      staticClass: "card-text",
-                      domProps: { textContent: _vm._s("Size: " + item.size) }
-                    }),
+                    _c("p", { staticClass: "card-text m-0" }, [
+                      _vm._v(
+                        "\n                            Size: " +
+                          _vm._s(item.size) +
+                          "\n                        "
+                      )
+                    ]),
                     _vm._v(" "),
                     _c("p", { staticClass: "card-text" }, [
                       _vm._v(

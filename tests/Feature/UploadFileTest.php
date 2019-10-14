@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+
+use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
@@ -16,6 +18,17 @@ class UploadFileTest extends TestCase
     {
         $this->post('/upload')->assertRedirect('/login');
     }
+
+    /** @test*/
+    public function user_should_confirm_email_to_upload_file(){
+        $user = create('App\User',['email_verified_at' => null]);
+        $this->signIn($user);
+        $this->post('/upload')
+            ->assertRedirect('/')
+            ->assertSessionHas('flash', 'You should confirm email to upload files.');
+        $response = $this->postJson('/upload')->assertStatus(401);
+    }
+
 
     /** @test */
     public function an_authenticated_user_can_upload_file()

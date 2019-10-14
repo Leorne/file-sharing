@@ -63,11 +63,10 @@ class FileController extends Controller
         if (!isset($data['error'])) {
             $file = File::create($data);
             //OK
-            if (\request()->json()) {
+            if (\request()->expectsJson()) {
                 $request->session()->flash('flash', 'File has been uploaded.');
                 return $file->path();
             }
-
             return redirect($file->path())->with('flash', 'File uploaded.');
         };
         return response()->json([

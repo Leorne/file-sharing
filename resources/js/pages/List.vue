@@ -20,7 +20,9 @@
                                 </span>
                                 </p>
                             </div>
-                            <p class="card-text" v-text="'Size: ' + item.size"></p>
+                            <p class="card-text m-0">
+                                Size: {{ item.size }}
+                            </p>
                             <p class="card-text">
                                 Uploaded at {{ item.created_at | moment }}
                             </p>
