@@ -6,7 +6,7 @@ Route::get('/', function () {
     return view('files.main');
 })->name('main');
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::post('/upload', 'FileController@store')->middleware('should-be-confirmed');
 Route::get('/list', 'FileController@index')->name('list');
@@ -29,25 +29,5 @@ Route::get('/profiles/{user}', 'ProfilesController@show')->name('profile');
 Route::post('/profiles/{user}/avatar', 'UserAvatarController@store')->name('avatar');
 Route::post('/profiles/{user}/status', 'UserStatusController@store')->name('status');
 
-
-//Route::post('/main/upload', 'FileController@store');
-//Route::get('/main/list', 'FileController@index')->name('list');
-//Route::get('/main/list/{file}', 'FileController@show');
-//Route::delete('/main/list/{file}', 'FileController@destroy');
-//
-//Route::post('/main/list/{file}/reply', 'ReplyController@store');
-//Route::get('/main/list/{file}/reply', 'ReplyController@index');
-//Route::patch('/replies/{reply}', 'ReplyController@update');
-//Route::delete('/replies/{reply}', 'ReplyController@destroy');
-//
-//
-//Route::post('/main/list/{file}/favorites', 'FavoritesController@store');
-//Route::delete('/main/list/{file}/favorites', 'FavoritesController@destroy');
-//
-//
-//Route::get('/profiles/{user}', 'ProfilesController@show')->name('profile');
-//
-//Route::post('/profiles/{user}/avatar', 'UserAvatarController@store')->name('avatar');
-//Route::post('/profiles/{user}/status', 'UserStatusController@store')->name('status');
 
 

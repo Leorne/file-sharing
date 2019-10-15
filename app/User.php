@@ -25,10 +25,10 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $withCount = ['replies','uploads'];
 
 
-    public function sendEmailVerificationNotification()
-    {
-        $this->notify(new \App\Notifications\ConfirmEmailNotification);
-    }
+//    public function sendEmailVerificationNotification()
+//    {
+//        $this->notify(new \App\Notifications\ConfirmEmailNotification);
+//    }
 
 
     public function files()
