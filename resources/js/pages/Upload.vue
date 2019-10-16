@@ -75,10 +75,15 @@
                 <div class="card">
                     <div class="card-body">
                         <div v-if="canUpload">
-                            <span class="text-center">
+                            <span class="text-center" v-if="confirmed">
                             <h1>
-                                Hello. You can upload the file!
+                                You can upload the file!
                             </h1>
+                            </span>
+                            <span class="text-center" v-else>
+                                <h1>
+                                    You should confirm your Email to upload file.
+                                </h1>
                             </span>
                             <form class="form-control-file" method="POST" enctype="multipart/form-data">
                                 <div class="dropzone-area form-group">
@@ -113,7 +118,7 @@
                                 </div>
                             </form>
                             <form method="POST" @submit.prevent="validate">
-                                <vue-recaptcha
+                                <vue-recaptcha v-if="captchaEnable"
                                     ref="recaptcha"
                                     size="invisible"
                                     :sitekey="sitekey"
@@ -128,7 +133,7 @@
                         <div v-else>
                             <span class="text-center">
                             <h1>
-                                Hello. You must be logged in to upload a file.
+                                You must be logged in to upload a file.
                             </h1>
                         </span>
                         </div>
@@ -150,6 +155,14 @@
         computed: {
             canUpload() {
                 return window.App.signedIn;
+            },
+
+            captchaEnable() {
+                return window.App.enableCaptcha;
+            },
+
+            confirmed() {
+                return (!!window.App.user.email_verified_at);
             },
 
             getName() {
@@ -221,7 +234,7 @@
 
             redirect(url) {
                 window.location.replace(url)
-                    .finally(() => {
+                    .then(() => {
                         this.file = null;
                         this.loading = !this.loading;
                         this.submit = !this.submit;
@@ -237,7 +250,12 @@
                 let data = new FormData();
                 data.append('file', this.file);
                 this.sendData = data;
-                this.$refs.recaptcha.execute()
+                if(this.captchaEnable){
+                    this.$refs.recaptcha.execute()
+                }
+                else{
+                    this.sendFile('');
+                }
             },
         },
     }

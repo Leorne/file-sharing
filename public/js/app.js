@@ -2763,6 +2763,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2773,6 +2778,12 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     canUpload: function canUpload() {
       return window.App.signedIn;
+    },
+    captchaEnable: function captchaEnable() {
+      return window.App.enableCaptcha;
+    },
+    confirmed: function confirmed() {
+      return !!window.App.user.email_verified_at;
     },
     getName: function getName() {
       return 'Name:  ' + "".concat(this.file.name);
@@ -2837,7 +2848,7 @@ __webpack_require__.r(__webpack_exports__);
     redirect: function redirect(url) {
       var _this = this;
 
-      window.location.replace(url)["finally"](function () {
+      window.location.replace(url).then(function () {
         _this.file = null;
         _this.loading = !_this.loading;
         _this.submit = !_this.submit;
@@ -2851,7 +2862,12 @@ __webpack_require__.r(__webpack_exports__);
       var data = new FormData();
       data.append('file', this.file);
       this.sendData = data;
-      this.$refs.recaptcha.execute();
+
+      if (this.captchaEnable) {
+        this.$refs.recaptcha.execute();
+      } else {
+        this.sendFile('');
+      }
     }
   }
 });
@@ -64917,7 +64933,21 @@ var render = function() {
           _c("div", { staticClass: "card-body" }, [
             _vm.canUpload
               ? _c("div", [
-                  _vm._m(0),
+                  _vm.confirmed
+                    ? _c("span", { staticClass: "text-center" }, [
+                        _c("h1", [
+                          _vm._v(
+                            "\n                            You can upload the file!\n                        "
+                          )
+                        ])
+                      ])
+                    : _c("span", { staticClass: "text-center" }, [
+                        _c("h1", [
+                          _vm._v(
+                            "\n                                You should confirm your Email to upload file.\n                            "
+                          )
+                        ])
+                      ]),
                   _vm._v(" "),
                   _c(
                     "form",
@@ -64983,7 +65013,7 @@ var render = function() {
                                       1
                                     ),
                                     _vm._v(" "),
-                                    _vm._m(1)
+                                    _vm._m(0)
                                   ])
                             ]),
                         _vm._v(" "),
@@ -65009,14 +65039,16 @@ var render = function() {
                       }
                     },
                     [
-                      _c("vue-recaptcha", {
-                        ref: "recaptcha",
-                        attrs: { size: "invisible", sitekey: _vm.sitekey },
-                        on: {
-                          verify: _vm.sendFile,
-                          expired: _vm.onCaptchaExpired
-                        }
-                      }),
+                      _vm.captchaEnable
+                        ? _c("vue-recaptcha", {
+                            ref: "recaptcha",
+                            attrs: { size: "invisible", sitekey: _vm.sitekey },
+                            on: {
+                              verify: _vm.sendFile,
+                              expired: _vm.onCaptchaExpired
+                            }
+                          })
+                        : _vm._e(),
                       _vm._v(" "),
                       !this.loading
                         ? _c("div", { staticClass: "text-center" }, [
@@ -65030,7 +65062,7 @@ var render = function() {
                     1
                   )
                 ])
-              : _c("div", [_vm._m(2)])
+              : _c("div", [_vm._m(1)])
           ])
         ])
       ])
@@ -65038,18 +65070,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "text-center" }, [
-      _c("h1", [
-        _vm._v(
-          "\n                            Hello. You can upload the file!\n                        "
-        )
-      ])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -65065,7 +65085,7 @@ var staticRenderFns = [
     return _c("span", { staticClass: "text-center" }, [
       _c("h1", [
         _vm._v(
-          "\n                            Hello. You must be logged in to upload a file.\n                        "
+          "\n                            You must be logged in to upload a file.\n                        "
         )
       ])
     ])

@@ -24,7 +24,7 @@ Route::post('/list/{file}/favorites', 'FavoritesController@store');
 Route::delete('/list/{file}/favorites', 'FavoritesController@destroy');
 
 
-Route::get('/profiles/{user}', 'ProfilesController@show')->name('profile');
+Route::get('/profiles/{user}', 'ProfilesController@show')->middleware('should-be-confirmed')->name('profile');
 
 Route::post('/profiles/{user}/avatar', 'UserAvatarController@store')->name('avatar');
 Route::post('/profiles/{user}/status', 'UserStatusController@store')->name('status');

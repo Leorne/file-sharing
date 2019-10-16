@@ -7,19 +7,20 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name') }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script>
         window.App = {!! json_encode([
             'user' => Auth::user(),
-            'signedIn' => Auth::check()
+            'signedIn' => Auth::check(),
+            'enableCaptcha' => env('RECAPTCHA_ENABLED'),
         ])!!}
     </script>
 
-    @yield('head')
-    <!-- Fonts -->
+@yield('head')
+<!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
@@ -40,7 +41,6 @@
         }
 
 
-
         [v-cloak] {
             display: none
         }
@@ -56,7 +56,7 @@
     <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
-                {{ config('app.name', 'Laravel') }}
+                {{ config('app.name') }}
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -128,6 +128,17 @@
     </nav>
 
     <main class="py-4">
+        @if (session('status_ok'))
+            <div class="alert alert-success text-center" role="alert">
+                {{ session('status_ok') }}
+            </div>
+        @endif
+        @if (session('status_error'))
+            <div class="alert alert-danger text-center" role="alert">
+                {{ session('status_error') }}
+            </div>
+        @endif
+
         @yield('content')
 
         <flash message="{{ session('flash') }}"></flash>

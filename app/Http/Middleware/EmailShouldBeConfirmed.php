@@ -17,9 +17,9 @@ class EmailShouldBeConfirmed
     {
         if(! $request->user()->email_verified_at){
             if(\request()->expectsJson()){
-                return response()->json(['error' => 'You should confirm email to upload files.'],401);
+                return response()->json(['error' => 'You should confirm email to do this.'],401);
             }
-            return redirect('/')->with('flash','You should confirm email to upload files.');
+            return redirect('/')->with('status_error','You should confirm email to do this.');
         }
 
         return $next($request);
