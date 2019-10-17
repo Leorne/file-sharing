@@ -16,7 +16,8 @@ class GetID3Helper
         $this->extract();
     }
 
-    protected function extract(){
+    protected function extract()
+    {
         if ($fpRemote = fopen($this->name, 'rb')) {
             $localTempFileName = tempnam('/tmp', 'getID3');
             if ($fpLocal = fopen($localTempFileName, 'wb')) {
@@ -30,19 +31,20 @@ class GetID3Helper
                 $this->setAdditionalData();
                 // Delete temporary file
                 unlink($localTempFileName);
-            }
-            else{
+            } else {
                 $this->errors[] = 'git3id cant load localTemp file';
             }
             fclose($fpRemote);
         } else {
-             $this->errors[] = 'gitid3 cant load file';
+            $this->errors[] = 'gitid3 cant load file';
         }
     }
 
-    protected  function setAdditionalData(){
+    protected function setAdditionalData()
+    {
         $data = $this->getid3Data;
-        $type = (explode('/', $data['mime_type'], -1)[0]);
+        dd($data);
+        $type = explode('/', $data['mime_type'], -1)[0];
         if (method_exists($this, $type)) {
             $data['additional_data'] = $this->$type($data);
         } else {
@@ -51,7 +53,8 @@ class GetID3Helper
         $this->getid3Data = $data;
     }
 
-    public function getidData(){
+    public function getidData()
+    {
         $this->getid3Data['errors'] = $this->errors;
         return $this->getid3Data;
     }
@@ -83,15 +86,17 @@ class GetID3Helper
     }
 
 
-    protected static function playTime($playtime){
+    protected static function playTime($playtime)
+    {
         $playtime = floor($playtime);
         $sec = $playtime % 60;
-        $sec = $sec < 10 ? '0'.$sec : $sec;
-        $min = ($playtime - $sec)/60;
-        return $min.':'.$sec;
+        $sec = $sec < 10 ? '0' . $sec : $sec;
+        $min = ($playtime - $sec) / 60;
+        return $min . ':' . $sec;
     }
 
-    protected static function resolution($data){
+    protected static function resolution($data)
+    {
         return $resolution = $data['video']['resolution_x'] . ' x ' . $data['video']['resolution_y'];
     }
 

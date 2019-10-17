@@ -18,7 +18,6 @@ class ActivityTest extends TestCase
         $this->signIn();
 
         $file = create('App\File', ['user_id' => auth()->id()]);
-
         $this->assertDatabaseHas('activities', [
             'type' => 'created_file',
             'user_id' => auth()->id(),
@@ -36,6 +35,7 @@ class ActivityTest extends TestCase
         $this->signIn();
 
         $reply = create('App\Reply');
+        $file = \App\File::all();
         $this->assertEquals(2, Activity::count());
     }
 

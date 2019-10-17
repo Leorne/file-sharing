@@ -1,13 +1,19 @@
-README FILE
-
 ## About
 A project created to study the Laravel framework.
 
 
+
+
+## Requirements
+1. [PHP] >= 7.2 support.
+2. [MySQL] database.
+3. [Apache 2.4]
+
+
 ## Used technologies
-1. Laravel framework 
-2. Vue.js 2
-3. Twitter Bootstrap 4.0
+1. [Laravel]  
+2. [Vue.js]
+3. [Twitter Bootstrap]
 
 
 ## Installation
@@ -38,3 +44,11 @@ npm install
 
 `php artisan db:seed` 
 
+
+
+[PHP]: <https://secure.php.net/>
+[Apache 2.4]: <http://httpd.apache.org/docs/2.4/>
+[Twitter Bootstrap]: <http://getbootstrap.com/>
+[MySQL]: <https://www.mysql.com/>
+[Vue.js]: <https://vuejs.org/>
+[Laravel]: <https://laravel.com/>

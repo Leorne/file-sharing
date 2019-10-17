@@ -8,7 +8,7 @@ Route::get('/', function () {
 
 Auth::routes(['verify' => true]);
 
-Route::post('/upload', 'FileController@store')->middleware('should-be-confirmed');
+Route::post('/upload', 'FileController@store');
 Route::get('/list', 'FileController@index')->name('list');
 Route::get('/list/get/files', 'FileController@getList');
 Route::get('/list/{file}', 'FileController@show')->name('file');
@@ -24,7 +24,7 @@ Route::post('/list/{file}/favorites', 'FavoritesController@store');
 Route::delete('/list/{file}/favorites', 'FavoritesController@destroy');
 
 
-Route::get('/profiles/{user}', 'ProfilesController@show')->middleware('should-be-confirmed')->name('profile');
+Route::get('/profiles/{user}', 'ProfilesController@show')->name('profile');
 
 Route::post('/profiles/{user}/avatar', 'UserAvatarController@store')->name('avatar');
 Route::post('/profiles/{user}/status', 'UserStatusController@store')->name('status');
