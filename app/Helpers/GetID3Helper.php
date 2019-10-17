@@ -16,6 +16,14 @@ class GetID3Helper
         $this->extract();
     }
 
+    //return getid3 file data with errors
+    public function getidData()
+    {
+        $this->getid3Data['errors'] = $this->errors;
+        return $this->getid3Data;
+    }
+
+    //extract getid3 data from file
     protected function extract()
     {
         if ($fpRemote = fopen($this->name, 'rb')) {
@@ -40,10 +48,10 @@ class GetID3Helper
         }
     }
 
+    //set additional data like resolution of image/video
     protected function setAdditionalData()
     {
         $data = $this->getid3Data;
-        dd($data);
         $type = explode('/', $data['mime_type'], -1)[0];
         if (method_exists($this, $type)) {
             $data['additional_data'] = $this->$type($data);
@@ -53,11 +61,6 @@ class GetID3Helper
         $this->getid3Data = $data;
     }
 
-    public function getidData()
-    {
-        $this->getid3Data['errors'] = $this->errors;
-        return $this->getid3Data;
-    }
 
     protected static function image($data)
     {

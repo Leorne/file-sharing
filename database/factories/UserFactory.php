@@ -33,8 +33,7 @@ $factory->define(User::class, function (Faker $faker) {
 $factory->define(App\File::class, function (Faker $faker) {
     $user = factory('App\User')->create();
     $tmpFile = $faker->image($dir  = null,$width = 640, $height = 480, $category = null, $fullPath = false);
-    $filesize = filesize('/tmp/'.$tmpFile);
-//    dd($filesize);
+//    $filesize = filesize('/tmp/'.$tmpFile);
     $file = new UploadedFile("/tmp/{$tmpFile}", $tmpFile);
     $helper = new FileHelper($file, $user->id);
     $data = $helper->getData();
@@ -42,7 +41,6 @@ $factory->define(App\File::class, function (Faker $faker) {
 });
 
 
-//$files->each(function($files){ factory('App\Reply',10)->create(['file_id' => $files->id]); });
 $factory->define(App\Reply::class, function (Faker $faker) {
     return [
         'file_id' => function () {
