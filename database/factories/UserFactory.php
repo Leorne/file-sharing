@@ -31,10 +31,14 @@ $factory->define(User::class, function (Faker $faker) {
 
 
 $factory->define(App\File::class, function (Faker $faker) {
+    $dir = sys_get_temp_dir();
+    $size = 0;
+    while(!$size){
+        $tmpFile = $faker->image($dir,$width = 640, $height = 480, $category = null, $fullPath = null);
+        $size = filesize($dir.'/'.$tmpFile);
+    }
     $user = factory('App\User')->create();
-    $tmpFile = $faker->image($dir  = null,$width = 640, $height = 480, $category = null, $fullPath = false);
-//    $filesize = filesize('/tmp/'.$tmpFile);
-    $file = new UploadedFile("/tmp/{$tmpFile}", $tmpFile);
+    $file = new UploadedFile("{$dir}/{$tmpFile}", $tmpFile);
     $helper = new FileHelper($file, $user->id);
     $data = $helper->getData();
     return $data;
